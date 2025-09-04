@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@font-face {
+  font-family: 'league-spartan';
+  src: url('/assets/fonts/LeagueSpartan-VariableFont_wght.ttf');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --custom-color-1: #7C5DFA;
+  --custom-color-2: #9277FF;
+  --custom-color-3: #1E2139;
+  --custom-color-4: #252945;
+  --custom-color-5: #DFE3FA;
+  --custom-color-6: #888EB0;
+  --custom-color-7: #7E88C3;
+  --custom-color-8: #0C0E16;
+  --custom-color-9: #EC5757;
+  --custom-color-10: #9277FF;
+  --custom-color-11: #F8F8FB;
+  --custom-color-12: #141625;
+  --custom-header-color: #373B53;
+  --custom-dark-color: #1F2139;
+  --font-league-spartan: 'league-spartan', 'sans-serif';
+}
+
+body {
+  @apply font-league-spartan
+}
+
+p {
+  @apply text-[13px] font-medium
+}
+
+input {
+  @apply text-[16px] border-[1px] border-[var(--custom-color-5)] dark:text-white dark:border-transparent dark:bg-[var(--custom-dark-color)] py-3 px-3 font-semibold w-full rounded-[5px]
+}
+
+select {
+  @apply text-[16px] border-[1px] border-[var(--custom-color-5)] dark:text-white dark:border-transparent dark:bg-[var(--custom-dark-color)] py-3 px-3 font-semibold w-full rounded-[5px]
+}
+
+button {
+  @apply cursor-pointer font-semibold
+}

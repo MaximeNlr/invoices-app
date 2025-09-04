@@ -1,0 +1,16 @@
+import { useNavigate } from "react-router-dom"
+
+export default function BackButton() {
+
+    const navigate = useNavigate();
+
+    return (
+        <button
+            onClick={() => navigate(-1)}
+            className="flex flex-row items-center gap-6 mx-5 py-6 font-semibold dark:text-white cursor-pointer"
+        >
+            <span><img src="/assets/icon-arrow-left.svg" alt="" /></span>
+            Go back
+        </button>
+    )
+}
