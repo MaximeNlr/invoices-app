@@ -1,4 +1,4 @@
-import Filter from "../../components/filter/filter"
+import Filter from "../../components/filter/Filter"
 import NewButton from "../../components/New_button/NewButton"
 import InvoiceComp from "../../components/invoiceComp/InvoiceComp"
 
