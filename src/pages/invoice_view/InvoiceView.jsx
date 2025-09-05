@@ -1,19 +1,30 @@
 import data from "../../data/data.json"
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 import BackButton from "../../components/Back_button/BackButton";
 import { FaCircle } from "react-icons/fa6";
 import DeleteButton from "../../components/Delete_button/DeleteButton";
 import EditButton from "../../components/Edit_button/EditButton";
 import PaidButton from "../../components/Paid_button/PaidButton";
 import useIsMobile from "../../hooks/isMobile";
+import InvoiceForm from "../../components/Invoice_form/InvoiceForm";
+import { IoMdClose } from "react-icons/io";
+
 
 export default function InvoiceView() {
 
     const pathname = useParams();
     const item = data.find((i) => i.id === pathname.id)
     const isMobile = useIsMobile()
+    const [isActive, setIsActive] = useState(false);
     console.log(isMobile);
 
+
+    const statuesClass = {
+        pending: "text-[#FF8F00] bg-[#FF8F00]/20",
+        paid: "text-[#33D69F] bg-[#33D69F]/20",
+        draft: "text-white bg-black/20",
+    }
 
     return (
         <article className="flex flex-col bg-[var(--custom-color-11)] dark:bg-[var(--custom-color-12)] lg:px-80 lg:h-screen">
@@ -22,10 +33,7 @@ export default function InvoiceView() {
                 <div className="flex flex-row items-center justify-between lg:justify-normal gap-5 w-full lg:w-fit">
                     <p className="text-[13px] text-[#858BB2]">Status</p>
                     <p
-                        aria-label={item.status === "paid" ? "paid" : "pending"}
-                        className={item.status === "paid"
-                            ? "flex items-center gap-2 text-[#33D69F] bg-[#33D69F]/20 px-5 py-2 text-center rounded-lg  font-medium"
-                            : "flex items-center gap-2 text-[#FF8F00] bg-[#FF8F00]/20 px-5 py-2 text-center rounded-lg font-medium"}
+                        className={`flex justify-center items-center gap-2 px-5 py-2 text-center rounded-lg font-semibold w-[104px] h-[40px] ${statuesClass[item.status]}`}
                     >
                         <span className="text-[0.6rem]"><FaCircle /></span>
                         {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
@@ -33,7 +41,12 @@ export default function InvoiceView() {
                 </div>
                 {!isMobile &&
                     <div className="lg:flex flex-row justify-normal gap-2 px-5 py-5 mt-0">
-                        <EditButton id={item.id} />
+                        <button
+                            onClick={() => setIsActive(true)}
+                            className="bg-[#F9FAFE] text-[var(--custom-color-7)] hover:bg-[var(--custom-color-5)] transition-colors font-semibold rounded-3xl px-8 py-3 cursor-pointer"
+                        >
+                            Edit
+                        </button>
                         <DeleteButton id={item.id} />
                         <PaidButton id={item.id} />
                     </div>
@@ -108,6 +121,19 @@ export default function InvoiceView() {
                     <PaidButton id={item.id} />
                 </div>
             }
-        </article>
+            {isActive &&
+                <div className="fixed inset-0 bg-black/50 w-full overflow-scroll">
+                    <div className="absolute flex flex-row items-baseline bg-white dark:bg-[var(--custom-color-12)] pl-40 pt-20 top-0" >
+                        <InvoiceForm item={item} mode="edit" />
+                        <button
+                            onClick={() => setIsActive(false)}
+                            className="text-3xl mr-10 text-[var(--custom-color-7)] hover:text-black transition-colors"
+                        >
+                            <IoMdClose />
+                        </button>
+                    </div>
+                </div >
+            }
+        </article >
     )
 }

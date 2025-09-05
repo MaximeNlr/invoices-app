@@ -16,7 +16,7 @@ export default function DeleteButton({ id }) {
         <div>
             <button
                 onClick={() => setIsActive(true)}
-                className="bg-[var(--custom-color-9)] rounded-3xl px-8 py-3 text-white"
+                className="bg-[var(--custom-color-9)] hover:bg-[var(--custom-color-10)] transition-colors rounded-3xl px-8 py-3 text-white"
             >
                 Delete
             </button>
@@ -30,12 +30,12 @@ export default function DeleteButton({ id }) {
                         <div className="flex flex-row justify-end pt-5 font-semibold">
                             <button
                                 onClick={() => setIsActive(false)}
-                                className="bg-[#F9FAFE] text-[var(--custom-color-7)] rounded-3xl px-8 py-3"
+                                className="bg-[#F9FAFE] text-[var(--custom-color-7)] hover:bg-[var(--custom-color-5)] transition-colors rounded-3xl px-8 py-3"
                             >
                                 Cancel
                             </button>
                             <button
-                                className="bg-[var(--custom-color-9)] rounded-3xl px-8 py-3 text-white"
+                                className="bg-[var(--custom-color-9)] hover:bg-[var(--custom-color-10)] transition-colors rounded-3xl px-8 py-3 text-white"
                             >
                                 Delete
                             </button>

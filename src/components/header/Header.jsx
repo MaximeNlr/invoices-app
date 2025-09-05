@@ -8,7 +8,7 @@ export default function Header() {
     return (
         <header
             className="flex flex-row items-center w-full lg:w-24 lg:flex-col lg:fixed lg:h-screen justify-between
-                bg-[var(--custom-header-color)] dark:bg-[var(--custom-dark-color)] h-[72px] pr-5 lg:pr-0 lg:rounded-r-2xl"
+                bg-[var(--custom-header-color)] dark:bg-[var(--custom-dark-color)] h-[72px] pr-5 lg:pr-0 lg:rounded-r-2xl z-50"
         >
             <div className="relative flex items-end bg-[var(--custom-color-1)] rounded-r-2xl w-[72px] h-full lg:w-24 lg:h-24">
                 <div className="bg-[var(--custom-color-2)] rounded-tl-2xl rounded-br-2xl h-1/2 w-full"></div>

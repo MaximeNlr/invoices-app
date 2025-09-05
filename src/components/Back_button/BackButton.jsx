@@ -7,7 +7,7 @@ export default function BackButton() {
     return (
         <button
             onClick={() => navigate(-1)}
-            className="flex flex-row items-center gap-6 mx-5 py-6 font-semibold dark:text-white cursor-pointer"
+            className="flex flex-row items-center gap-6 mx-5 py-6 font-semibold dark:text-white hover:text-[var(custom-color-7)] cursor-pointer"
         >
             <span><img src="/assets/icon-arrow-left.svg" alt="" /></span>
             Go back

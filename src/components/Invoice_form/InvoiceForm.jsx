@@ -13,7 +13,7 @@ export default function InvoiceForm({ item, mode }) {
         clientInfo: {
             name: item ? item.clientName : "",
             email: item ? item.clientEmail : "",
-            address: item ? item.clientAddress.address : "",
+            address: item ? item.clientAddress.street : "",
             city: item ? item.clientAddress.city : "",
             postCode: item ? item.clientAddress.postCode : "",
             country: item ? item.clientAddress.country : "",
@@ -25,6 +25,8 @@ export default function InvoiceForm({ item, mode }) {
             description: item ? item.description : "",
         }
     })
+    console.log(item);
+
 
     return (
         <form action="">
@@ -271,7 +273,7 @@ export default function InvoiceForm({ item, mode }) {
                 </button>
             </div>
             {mode === 'edit' ?
-                <div className="flex flex-row justify-end shadow-[0px_21px_85px_43px_#757575] dark:shadow-none py-5 px-5">
+                <div className="flex flex-row justify-end shadow-[0px_21px_85px_43px_#757575] lg:shadow-none dark:shadow-none py-5 px-5">
                     <button
                         className="bg-[#F9FAFE] text-[var(--custom-color-7)] rounded-3xl px-8 py-3"
 
@@ -286,7 +288,7 @@ export default function InvoiceForm({ item, mode }) {
                 </div>
                 :
                 <div
-                    className="flex flex-row justify-center gap-2 shadow-[0px_21px_85px_43px_#757575] py-5 px-5 whitespace-nowrap"
+                    className="flex flex-row justify-center gap-2 shadow-[0px_21px_85px_43px_#757575] lg:shadow-none dark:shadow-none py-5 px-5 whitespace-nowrap"
                 >
                     <button
                         className="bg-[#F9FAFE] text-[var(--custom-color-7)] rounded-3xl px-5 py-3 w-fit"

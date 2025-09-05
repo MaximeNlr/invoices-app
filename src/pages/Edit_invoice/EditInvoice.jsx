@@ -12,7 +12,9 @@ export default function EditInvoice() {
     return (
         <section className="bg-white dark:bg-[var(--custom-color-12)]">
             <BackButton />
-            <InvoiceForm item={item} mode={"edit"} />
+            <div>
+                <InvoiceForm item={item} mode={"edit"} />
+            </div>
         </section>
     )
 }
