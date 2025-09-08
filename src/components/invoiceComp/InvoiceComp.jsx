@@ -1,8 +1,9 @@
 import data from "../../data/data.json"
 import { FaCircle } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-export default function InvoiceComp() {
+export default function InvoiceComp({ invoices }) {
 
     const navigate = useNavigate();
 
@@ -12,7 +13,7 @@ export default function InvoiceComp() {
         draft: "text-[var(custom-color-5)] bg-black/20",
     }
 
-    if (!data) {
+    if (!invoices) {
         return (
             <div className="flex flex-col dark:bg-[var(--custom-dark-color)] dark:text-white gap-5 items-center pt-10 h-screen">
                 <img src="./assets/illustration-empty.svg" alt="" />
@@ -24,8 +25,8 @@ export default function InvoiceComp() {
         )
     } else {
         return (
-            <div className="flex flex-col gap-5 px-5 pt-5">
-                {data.map((i) => (
+            <div className="flex flex-col gap-5 px-5 pt-5 h-fit min-h-screen lg:min-w-[600px]">
+                {invoices.map((i) => (
                     <article
                         key={i.id}
                         onClick={() => navigate(`/invoice/${i.id}`)}

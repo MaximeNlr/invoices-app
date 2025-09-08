@@ -25,8 +25,6 @@ export default function InvoiceForm({ item, mode }) {
             description: item ? item.description : "",
         }
     })
-    console.log(item);
-
 
     return (
         <form action="">
@@ -38,13 +36,14 @@ export default function InvoiceForm({ item, mode }) {
                         Edit
                         <span className="text-[#858BB2] pl-2">#</span>{item.id}</h1>
                     :
-                    <h1 className="font-bold text-2xl pb-6">
+                    <h1 className="font-bold dark:text-white text-2xl pb-6"
+                    >
                         New Invoice
                     </h1>
                 }
                 <h2 className="text-[var(--custom-color-1)] font-semibold">Bill From</h2>
                 <legend className="flex flex-col">
-                    <label className="text-[#858BB2] text-[13px]" htmlFor="address">Street Address</label>
+                    <label htmlFor="address">Street Address</label>
                     <input
                         type="text"
                         name="address"
@@ -55,9 +54,9 @@ export default function InvoiceForm({ item, mode }) {
                     />
                 </legend>
                 <div className="flex flex-col lg:flex-row lg:items-center gap-5">
-                    <div className="flex flex-row justify-between gap-5">
+                    <div className="flex flex-row md:justify-between gap-5">
                         <legend className="flex flex-col">
-                            <label className="text-[#858BB2] text-[13px]" htmlFor="city">City</label>
+                            <label htmlFor="city">City</label>
                             <input
                                 type="text"
                                 name="city"
@@ -65,10 +64,11 @@ export default function InvoiceForm({ item, mode }) {
                                 onChange={(e) =>
                                     setFormData(prev =>
                                         ({ ...prev, senderInfo: { ...prev.senderInfo, [e.target.name]: e.target.value } }))}
+                                className="w-full"
                             />
                         </legend>
                         <legend className="flex flex-col">
-                            <label className="text-[#858BB2] text-[13px]" htmlFor="postCode">Post Code</label>
+                            <label htmlFor="postCode">Post Code</label>
                             <input
                                 type="text"
                                 name="postCode"
@@ -76,12 +76,13 @@ export default function InvoiceForm({ item, mode }) {
                                 onChange={(e) =>
                                     setFormData(prev =>
                                         ({ ...prev, senderInfo: { ...prev.senderInfo, [e.target.name]: e.target.value } }))}
+                                className="w-full"
                             />
                         </legend>
                     </div>
                     <div>
                         <legend className="flex flex-col">
-                            <label className="text-[#858BB2] text-[13px]" htmlFor="country">Country</label>
+                            <label htmlFor="country">Country</label>
                             <input
                                 type="text"
                                 name="country"
@@ -95,7 +96,7 @@ export default function InvoiceForm({ item, mode }) {
                 </div>
                 <h2 className="text-[var(--custom-color-1)] font-semibold">Bill From</h2>
                 <legend className="flex flex-col">
-                    <label className="text-[#858BB2] text-[13px]" htmlFor="name">Client's Name</label>
+                    <label htmlFor="name">Client's Name</label>
                     <input
                         type="text"
                         name="name"
@@ -106,7 +107,7 @@ export default function InvoiceForm({ item, mode }) {
                     />
                 </legend>
                 <legend className="flex flex-col">
-                    <label className="text-[#858BB2] text-[13px]" htmlFor="email">Client's Email</label>
+                    <label htmlFor="email">Client's Email</label>
                     <input
                         type="text"
                         name="email"
@@ -117,7 +118,7 @@ export default function InvoiceForm({ item, mode }) {
                     />
                 </legend>
                 <legend className="flex flex-col">
-                    <label className="text-[#858BB2] text-[13px]" htmlFor="address">Street Address</label>
+                    <label htmlFor="address">Street Address</label>
                     <input
                         type="text"
                         name="address"
@@ -130,7 +131,7 @@ export default function InvoiceForm({ item, mode }) {
                 <div className="flex flex-col lg:flex-row gap-5">
                     <div className="flex flex-row justify-between gap-5">
                         <legend className="flex flex-col">
-                            <label className="text-[#858BB2] text-[13px]" htmlFor="city">City</label>
+                            <label htmlFor="city">City</label>
                             <input
                                 type="text"
                                 name="city"
@@ -138,10 +139,11 @@ export default function InvoiceForm({ item, mode }) {
                                 onChange={(e) =>
                                     setFormData(prev =>
                                         ({ ...prev, clientInfo: { ...prev.clientInfo, [e.target.name]: e.target.value } }))}
+                                className="w-full"
                             />
                         </legend>
-                        <legend>
-                            <label className="text-[#858BB2] text-[13px]" htmlFor="postCode">Post Code</label>
+                        <legend className="flex flex-col">
+                            <label htmlFor="postCode">Post Code</label>
                             <input
                                 type="text"
                                 name="postCode"
@@ -149,12 +151,13 @@ export default function InvoiceForm({ item, mode }) {
                                 onChange={(e) =>
                                     setFormData(prev =>
                                         ({ ...prev, clientInfo: { ...prev.clientInfo, [e.target.name]: e.target.value } }))}
+                                className="w-full"
                             />
                         </legend>
                     </div>
                     <div>
                         <legend className="flex flex-col">
-                            <label className="text-[#858BB2] text-[13px]" htmlFor="country">Country</label>
+                            <label htmlFor="country">Country</label>
                             <input
                                 type="text"
                                 name="country"
@@ -166,9 +169,9 @@ export default function InvoiceForm({ item, mode }) {
                         </legend>
                     </div>
                 </div>
-                <div className="flex flex-col lg:flex-row lg:items-center">
-                    <legend className="flex flex-col">
-                        <label className="text-[#858BB2] text-[13px]" htmlFor="invoiceDate">Invoice Date</label>
+                <div className="flex flex-col lg:flex-row lg:items-center lg:w-full lg:gap-10">
+                    <legend className="flex flex-col lg:w-full">
+                        <label htmlFor="invoiceDate">Invoice Date</label>
                         <input
                             type="date"
                             name="invoiceDate"
@@ -178,8 +181,8 @@ export default function InvoiceForm({ item, mode }) {
                                     ({ ...prev, clientInfo: { ...prev.clientInfo, [e.target.name]: e.target.value } }))}
                         />
                     </legend>
-                    <legend className="flex flex-col pt-5">
-                        <label className="text-[#858BB2] text-[13px]" htmlFor="paymentTerms">
+                    <legend className="flex flex-col pt-5 lg:pt-0 lg:w-full">
+                        <label htmlFor="paymentTerms">
                             Payment Terms
                         </label>
                         <select
@@ -201,7 +204,7 @@ export default function InvoiceForm({ item, mode }) {
                     </legend>
                 </div>
                 <legend className="flex flex-col">
-                    <label className="text-[#858BB2] text-[13px]" htmlFor="description">Project Description</label>
+                    <label htmlFor="description">Project Description</label>
                     <input
                         type="text"
                         name="description"
@@ -219,7 +222,7 @@ export default function InvoiceForm({ item, mode }) {
                         >
                             <legend className="flex flex-col">
 
-                                <label className="text-[#858BB2] text-[13px]" htmlFor="itemName">Item Name</label>
+                                <label htmlFor="itemName">Item Name</label>
                                 <input
                                     type="text"
                                     name="name"
@@ -232,7 +235,7 @@ export default function InvoiceForm({ item, mode }) {
                             <div className="flex flex-row items-center gap-10 pt-5">
                                 <div className="flex flex-row items-center gap-5">
                                     <legend className="flex flex-col">
-                                        <label className="text-[#858BB2] text-[13px]" htmlFor="quantity">Qty</label>
+                                        <label htmlFor="quantity">Qty</label>
                                         <input
                                             type="text"
                                             name="quantity"
@@ -243,7 +246,7 @@ export default function InvoiceForm({ item, mode }) {
                                         />
                                     </legend>
                                     <legend className="flex flex-col">
-                                        <label className="text-[#858BB2] text-[13px]" htmlFor="price">Price</label>
+                                        <label htmlFor="price">Price</label>
                                         <input
                                             type="text"
                                             name="price"
@@ -254,7 +257,7 @@ export default function InvoiceForm({ item, mode }) {
                                         />
                                     </legend>
                                     <dl className="flex flex-col">
-                                        <dt className="text-[#858BB2] text-[13px]">Total</dt>
+                                        <dt className="text-[var(--custom-color-7)] dark:text-[var(--custom-color-6)] text-[13px]">Total</dt>
                                         <dd className="text-[#858BB2] font-semibold">{info.total}</dd>
                                     </dl>
                                 </div>
@@ -273,39 +276,42 @@ export default function InvoiceForm({ item, mode }) {
                 </button>
             </div>
             {mode === 'edit' ?
-                <div className="flex flex-row justify-end shadow-[0px_21px_85px_43px_#757575] lg:shadow-none dark:shadow-none py-5 px-5">
+                <div className="flex flex-row justify-end gap-2 shadow-[0px_21px_85px_43px_#757575] lg:shadow-none dark:shadow-none py-5 px-5">
                     <button
-                        className="bg-[#F9FAFE] text-[var(--custom-color-7)] rounded-3xl px-8 py-3"
+                        className="bg-[#F9FAFE] text-[var(--custom-color-7)] dark:bg-[var(--custom-color-4)] dark:text-[var(--custom-color-5)] rounded-3xl px-5 py-3"
 
                     >
                         Cancel
                     </button>
                     <button
-                        className="bg-[var(--custom-color-1)] rounded-3xl px-5 py-2 text-white"
+                        className="bg-[var(--custom-color-1)] hover:bg-[var(--custom-color-2)]
+                            transition-colors rounded-3xl px-6 lg:px-8 py-2 text-white overflow-hidden whitespace-nowrap"
                     >
                         Save Changes
                     </button>
                 </div>
                 :
                 <div
-                    className="flex flex-row justify-center gap-2 shadow-[0px_21px_85px_43px_#757575] lg:shadow-none dark:shadow-none py-5 px-5 whitespace-nowrap"
+                    className="flex flex-row md:justify-between gap-2 shadow-[0px_21px_85px_43px_#757575] lg:shadow-none dark:shadow-none py-5 px-5 whitespace-nowrap"
                 >
                     <button
-                        className="bg-[#F9FAFE] text-[var(--custom-color-7)] rounded-3xl px-5 py-3 w-fit"
-
+                        className="bg-[#F9FAFE] text-[var(--custom-color-7)] dark:bg-[var(--custom-color-4)] dark:text-[var(--custom-color-5)] rounded-3xl px-5 py-3"
                     >
                         Discard
                     </button>
-                    <button
-                        className="bg-[#373B53] rounded-3xl text-[var(--custom-color-6)] px-5 py-3 w-fit"
-                    >
-                        Save as Draft
-                    </button>
-                    <button
-                        className="bg-[var(--custom-color-1)] rounded-3xl text-white px-5 py-3 w-fit"
-                    >
-                        Save & Send
-                    </button>
+                    <div className="flex flex-row gap-2">
+                        <button
+                            className="bg-[#373B53] rounded-3xl text-[var(--custom-color-6)] dark:text-[var(--custom-color-5)] px-3 py-3 w-fit"
+                        >
+                            Save as Draft
+                        </button>
+                        <button
+                            className="bg-[var(--custom-color-1)] hover:bg-[var(--custom-color-2)]
+                            transition-colors rounded-3xl px-3 lg:px-8 py-2 text-white overflow-hidden whitespace-nowrap"
+                        >
+                            Save & Send
+                        </button>
+                    </div>
                 </div>
             }
         </form>

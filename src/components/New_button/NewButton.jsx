@@ -8,6 +8,7 @@ export default function NewButton({ setIsActive }) {
     if (isMobile) {
         return (
             <Link
+                to="/create/invoice"
                 className="flex flex-row items-center rounded-3xl bg-[var(--custom-color-1)]
                     hover:bg-[var(--custom-color-2)] transition-colors text-white px-3 py-2 font-semibold"
             >

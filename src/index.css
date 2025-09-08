@@ -36,14 +36,24 @@ p {
   @apply text-[13px] font-medium
 }
 
-input {
-  @apply text-[16px] border-[1px] border-[var(--custom-color-5)] dark:text-white dark:border-transparent dark:bg-[var(--custom-dark-color)] py-3 px-3 font-semibold w-full rounded-[5px]
+input[type=text], input[type=date] {
+  @apply text-[16px] border-[1px] border-[var(--custom-color-5)] dark:text-white dark:border-transparent dark:bg-[var(--custom-dark-color)] py-3 px-3 font-semibold rounded-[5px] outline-none focus:border-[var(--custom-color-1)]
 }
 
+
+input[type=checkbox] {
+  @apply appearance-none checked:bg-[var(--custom-color-1)] bg-[var(--custom-dark-color)] border-[var(--custom-color-1)]
+}
+
+
 select {
-  @apply text-[16px] border-[1px] border-[var(--custom-color-5)] dark:text-white dark:border-transparent dark:bg-[var(--custom-dark-color)] py-3 px-3 font-semibold w-full rounded-[5px]
+  @apply text-[16px] border-[1px] border-[var(--custom-color-5)] dark:text-white dark:border-transparent dark:bg-[var(--custom-dark-color)] py-3 px-3 font-semibold rounded-[5px]
 }
 
 button {
   @apply cursor-pointer font-semibold
+}
+
+label {
+  @apply text-[var(--custom-color-7)] dark:text-[var(--custom-color-6)] text-[13px]
 }
