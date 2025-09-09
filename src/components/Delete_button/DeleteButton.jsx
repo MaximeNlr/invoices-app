@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "motion/react";
 export default function DeleteButton({ id }) {
 
     const [isActive, setIsActive] = useState(false);
-    const [isDeleted, setIsDeleted] = useState(false);
 
     useEffect(() => {
         if (isActive) {
@@ -13,6 +12,22 @@ export default function DeleteButton({ id }) {
             document.body.style.overflow = "scroll";
         }
     }, [isActive])
+
+    const deleteInvoice = async () => {
+        try {
+            const options = {
+                method: 'DELETE',
+                headers: { 'Content-type': 'application/json' }
+            };
+            const response = await fetch(`http://localhost:3000/api/invoice/${id}`, options)
+            const data = await response.json()
+            if (data.success) {
+                setIsActive(false)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <div>
@@ -44,7 +59,7 @@ export default function DeleteButton({ id }) {
                                     Cancel
                                 </button>
                                 <button
-                                    onClick={() => setIsDeleted(true)}
+                                    onClick={deleteInvoice}
                                     className="bg-[var(--custom-color-9)] hover:bg-[var(--custom-color-10)] transition-colors rounded-3xl px-8 py-3 text-white"
                                 >
                                     Delete

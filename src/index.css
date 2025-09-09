@@ -33,7 +33,7 @@ body {
 }
 
 p {
-  @apply text-[13px] font-medium
+  @apply text-[13px] md:text-base font-medium
 }
 
 input[type=text], input[type=date] {
@@ -42,7 +42,7 @@ input[type=text], input[type=date] {
 
 
 input[type=checkbox] {
-  @apply appearance-none checked:bg-[var(--custom-color-1)] bg-[var(--custom-dark-color)] border-[var(--custom-color-1)]
+  @apply checked:bg-[var(--custom-color-1)] bg-[var(--custom-dark-color)] border-[var(--custom-color-1)]
 }
 
 

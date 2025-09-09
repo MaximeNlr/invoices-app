@@ -3,13 +3,12 @@ import NewButton from "../../components/New_button/NewButton"
 import InvoiceComp from "../../components/invoiceComp/InvoiceComp"
 import InvoiceForm from "../../components/Invoice_form/InvoiceForm";
 import { useEffect, useState } from "react";
-import { IoMdClose } from "react-icons/io";
-import data from "../../data/data.json"
 import { motion, AnimatePresence } from "motion/react";
 
 export default function Home() {
 
     const [isActive, setIsActive] = useState(false);
+    const [invoicesData, setInvoicesData] = useState([]);
     const [filteredInvoice, setFilteredInvoice] = useState([]);
     const [filterTags, setFilterTags] = useState({
         draft: false,
@@ -21,39 +20,57 @@ export default function Home() {
 
         const hasActiveFilter = Object.values(filterTags).some(Boolean);
         setFilteredInvoice(hasActiveFilter
-            ? data.filter((i) => filterTags[i.status])
-            : data);
+            ? invoicesData.filter((i) => filterTags[i.status])
+            : invoicesData);
 
     }, [filterTags])
 
+    useEffect(() => {
+        const fetchInvoices = async () => {
+            try {
+                const options = {
+                    method: 'GET',
+                    headers: { 'Content-type': 'application/json' }
+                }
+                const response = await fetch('http://localhost:3000/api/invoices', options);
+                const data = await response.json();
+                setInvoicesData(data.data)
+            } catch (error) {
+
+            }
+        }
+        fetchInvoices();
+    }, [])
+
     return (
-        <section className="h-fit pb-32 bg-[var(--custom-color-11)] dark:bg-[var(--custom-color-12)] lg:px-80">
+        <section className="h-fit pb-32 bg-[var(--custom-color-11)] dark:bg-[var(--custom-color-12)] lg:px-80 md:pt-10">
             <div className="flex flex-row items-center justify-between px-5 py-5 lg:py-10 lg:min-w-[600px]">
-                <h1 className="font-bold dark:text-white text-2xl">Invoices</h1>
+                <div>
+                    <h1 className="font-bold dark:text-white text-2xl md:text-4xl">Invoices</h1>
+                    {invoicesData.length > 0 ?
+                        <p className="dark:text-[var(--custom-color-5)]">There are {invoicesData.length} total invoices</p>
+                        :
+                        <p className="dark:text-[var(--custom-color-5)]">No invoices</p>
+                    }
+                </div>
                 <div className="flex flex-row items-center gap-5 lg:gap-10">
                     <Filter filterTags={filterTags} setFilterTags={setFilterTags} />
                     <NewButton setIsActive={setIsActive} />
                 </div>
             </div>
-            <InvoiceComp invoices={filteredInvoice} />
+            <InvoiceComp invoices={invoicesData} />
             <AnimatePresence>
                 {isActive && (
-                    <div className="fixed inset-0 bg-black/50 w-full overflow-scroll">
+                    <div className="fixed inset-0 md:top-[72px] lg:top-0 bg-black/50 w-full overflow-scroll">
                         <motion.div
                             key="invoice-modal"
                             initial={{ x: -800 }}
                             animate={{ x: 0 }}
                             exit={{ x: -800 }}
                             transition={{ type: "tween", duration: 0.3 }}
-                            className="absolute flex flex-row items-start bg-white dark:bg-[var(--custom-color-12)] pl-40 pt-20 top-0"
+                            className="absolute lg:top-0 flex flex-row items-start bg-white dark:bg-[var(--custom-color-12)] md:pl-5 lg:pl-40 lg:pr-10 pt-20"
                         >
-                            <InvoiceForm mode="create" />
-                            <button
-                                onClick={() => setIsActive(false)}
-                                className="text-3xl mr-10 text-[var(--custom-color-7)] hover:text-black transition-colors"
-                            >
-                                <IoMdClose />
-                            </button>
+                            <InvoiceForm mode="create" setIsActive={setIsActive} />
                         </motion.div>
                     </div>
                 )}
