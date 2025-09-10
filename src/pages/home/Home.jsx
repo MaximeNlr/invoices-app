@@ -3,9 +3,15 @@ import NewButton from "../../components/New_button/NewButton"
 import InvoiceComp from "../../components/invoiceComp/InvoiceComp"
 import InvoiceForm from "../../components/Invoice_form/InvoiceForm";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
+import { Toast } from "../../components/Toast/Toast";
+import useToast from "../../hooks/useToast";
 
 export default function Home() {
+
+    const location = useLocation();
+    const { toast, showToast } = useToast();
 
     const [isActive, setIsActive] = useState(false);
     const [invoicesData, setInvoicesData] = useState([]);
@@ -24,6 +30,15 @@ export default function Home() {
             : invoicesData);
 
     }, [filterTags])
+
+    useEffect(() => {
+        if (location.state?.toast) {
+            const { message, type, extra } = location.state?.toast
+            showToast(message, type, extra);
+        }
+        window.history.replaceState({}, document.title);
+
+    }, [location])
 
     useEffect(() => {
         const fetchInvoices = async () => {
@@ -58,6 +73,7 @@ export default function Home() {
                     <NewButton setIsActive={setIsActive} />
                 </div>
             </div>
+            <Toast toast={toast} />
             <InvoiceComp invoices={invoicesData} />
             <AnimatePresence>
                 {isActive && (
@@ -70,7 +86,7 @@ export default function Home() {
                             transition={{ type: "tween", duration: 0.3 }}
                             className="absolute lg:top-0 flex flex-row items-start bg-white dark:bg-[var(--custom-color-12)] md:pl-5 lg:pl-40 lg:pr-10 pt-20"
                         >
-                            <InvoiceForm mode="create" setIsActive={setIsActive} />
+                            <InvoiceForm mode="create" setIsActive={setIsActive} showToast={showToast} />
                         </motion.div>
                     </div>
                 )}

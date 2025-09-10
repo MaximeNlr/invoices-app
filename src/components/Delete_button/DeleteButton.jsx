@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "motion/react";
+import { useNavigate } from "react-router-dom";
+import useToast from "../../hooks/useToast";
 
 export default function DeleteButton({ id }) {
 
+    const navigate = useNavigate();
+    const { showToast } = useToast();
     const [isActive, setIsActive] = useState(false);
 
     useEffect(() => {
@@ -22,7 +26,11 @@ export default function DeleteButton({ id }) {
             const response = await fetch(`http://localhost:3000/api/invoice/${id}`, options)
             const data = await response.json()
             if (data.success) {
-                setIsActive(false)
+                setIsActive(false);
+                navigate("/", { state: { toast: { message: "Invoice deleted!", type: "success", extra: id } } });
+
+            } else {
+                showToast("Error deleting invoice", "error", data.message);
             }
         } catch (error) {
             console.log(error);
