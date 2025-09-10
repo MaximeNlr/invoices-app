@@ -162,7 +162,7 @@ export default function InvoiceView() {
                             transition={{ type: "tween", duration: 0.3 }}
                             className="absolute flex flex-row items-baseline bg-white dark:bg-[var(--custom-color-12)] lg:pl-40 lg:pr-10 pt-20 top-0"
                         >
-                            <InvoiceForm item={invoice} mode="edit" setIsActive={setIsActive} />
+                            <InvoiceForm item={invoice} invoice_id={invoice.invoiceId} mode="edit" setIsActive={setIsActive} />
                         </motion.div>
                     </div >
                 }

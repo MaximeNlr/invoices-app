@@ -4,7 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import useIsMobile from "../../hooks/isMobile";
 import { body, option } from "motion/react-client";
 
-export default function InvoiceForm({ item, mode, setIsActive }) {
+export default function InvoiceForm({ item, invoice_id, mode, setIsActive }) {
 
     const isMobile = useIsMobile();
 
@@ -64,21 +64,37 @@ export default function InvoiceForm({ item, mode, setIsActive }) {
 
     const createInvoice = async (e) => {
         e.preventDefault();
+        const options = {
+            method: "POST",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify(formData)
+        };
         try {
-            const response = await fetch("http://localhost:3000/api/create/invoice", {
-                method: "POST",
-                headers: { "Content-type": "application/json" },
-                body: JSON.stringify(formData)
-            });
+            const response = await fetch("http://localhost:3000/api/create/invoice", options);
             const data = await response.json();
-            console.log(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    const updateInvoice = async (e, invoice_id) => {
+        e.preventDefault();
+        console.log(invoice_id);
+
+        const options = {
+            method: "PUT",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify(formData)
+        }
+        try {
+            const response = await fetch(`http://localhost:3000/api/update/invoice/${invoice_id}`, options);
+            const data = await response.json();
         } catch (error) {
             console.error(error);
         }
     };
 
     return (
-        <form onSubmit={createInvoice}>
+        <form onSubmit={mode === 'create' ? (e) => createInvoice(e) : (e) => updateInvoice(e, invoice_id)}>
             <div className="flex flex-col gap-5 px-5 pb-24 bg-white dark:bg-[var(--custom-color-12)]">
                 <div className="md:flex flex-row justify-between">
                     {mode === "edit" ?
@@ -86,7 +102,7 @@ export default function InvoiceForm({ item, mode, setIsActive }) {
                             className="font-bold dark:text-white text-2xl pb-6"
                         >
                             Edit
-                            <span className="text-[#858BB2] pl-2">#</span>{item.id}</h1>
+                            <span className="text-[#858BB2] pl-2">#</span>{item.invoiceId}</h1>
                         :
                         <h1 className="font-bold dark:text-white text-2xl pb-6"
                         >
