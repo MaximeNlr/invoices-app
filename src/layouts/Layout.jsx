@@ -3,7 +3,7 @@ import Header from "../components/header/Header"
 
 export default function Layout() {
     return (
-        <main>
+        <main className="bg-[var(--custom-color-11)] dark:bg-[var(--custom-color-12)] md:h-screen lg:h-fit pb-20">
             <Header />
             <Outlet />
         </main>

@@ -59,7 +59,7 @@ export default function Home() {
     }, [isCreated])
 
     return (
-        <section className="h-fit pb-32 bg-[var(--custom-color-11)] dark:bg-[var(--custom-color-12)] lg:px-80 md:pt-10">
+        <section className="h-fit pb-32 lg:px-80 md:pt-10">
             <Toast toast={toast} />
             <div className="flex flex-row items-center justify-between px-5 py-5 lg:py-10 lg:min-w-[600px]">
                 <div>

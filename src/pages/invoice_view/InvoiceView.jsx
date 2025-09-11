@@ -49,7 +49,7 @@ export default function InvoiceView() {
     }, [id, showToast])
 
     return (
-        <article className="flex flex-col bg-[var(--custom-color-11)] dark:bg-[var(--custom-color-12)] lg:px-80 md:h-screen">
+        <article className="flex flex-col bg-[var(--custom-color-11)] dark:bg-[var(--custom-color-12)] lg:px-80">
             <BackButton />
             <Toast toast={toast} />
             <div className="flex flex-row items-center justify-between mx-5 bg-white dark:bg-[var(--custom-dark-color)] h-24 px-5 rounded-lg mb-10 lg:min-w-[600px]">
@@ -72,7 +72,7 @@ export default function InvoiceView() {
                             Edit
                         </button>
                         <DeleteButton id={invoice.invoiceId} />
-                        <PaidButton id={invoice.invoiceId} />
+                        <PaidButton id={invoice.invoiceId} showToast={showToast} />
                     </div>
                 }
             </div>
@@ -143,7 +143,7 @@ export default function InvoiceView() {
                     </div>
                     <div className="flex flex-row justify-between bg-[var(--custom-header-color)] dark:bg-[var(--custom-color-12)] text-white px-5 py-5 rounded-b-lg">
                         <dt>Grand Total</dt>
-                        <dd className="font-bold text-2xl">£ {invoice.totalAmount}</dd>
+                        <dd className="font-bold text-2xl">£ {(invoice.totalAmount / 100).toFixed(2)}</dd>
                     </div>
                 </div>
             </section>

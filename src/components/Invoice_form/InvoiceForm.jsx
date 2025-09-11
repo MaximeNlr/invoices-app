@@ -2,10 +2,21 @@ import { useState } from "react"
 import { FaTrash } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import useIsMobile from "../../hooks/isMobile";
+import { useLocation } from "react-router-dom";
 
 export default function InvoiceForm({ item, invoice_id, mode, setIsActive, showToast, setIsCreated }) {
 
     const isMobile = useIsMobile();
+    const { id } = useLocation();
+
+    let finalId = "";
+
+    if (!invoice_id) {
+        finalId = id;
+    }
+    else {
+        finalId = invoice_id;
+    }
 
     const [formData, setFormData] = useState({
         senderInfo: {
@@ -83,7 +94,7 @@ export default function InvoiceForm({ item, invoice_id, mode, setIsActive, showT
             console.error(error);
         }
     };
-    const updateInvoice = async (e, invoice_id) => {
+    const updateInvoice = async (e, finalId) => {
         e.preventDefault();
         console.log(invoice_id);
 
@@ -93,7 +104,7 @@ export default function InvoiceForm({ item, invoice_id, mode, setIsActive, showT
             body: JSON.stringify(formData)
         }
         try {
-            const response = await fetch(`http://localhost:3000/api/update/invoice/${invoice_id}`, options);
+            const response = await fetch(`http://localhost:3000/api/update/invoice/${finalId}`, options);
             const data = await response.json();
             if (data.success) {
                 setIsActive(false);
@@ -107,7 +118,7 @@ export default function InvoiceForm({ item, invoice_id, mode, setIsActive, showT
     };
 
     return (
-        <form onSubmit={mode === 'create' ? (e) => createInvoice(e) : (e) => updateInvoice(e, invoice_id)}>
+        <form onSubmit={mode === 'create' ? (e) => createInvoice(e) : (e) => updateInvoice(e, finalId)}>
             <div className="flex flex-col gap-5 px-5 pb-24 bg-white dark:bg-[var(--custom-color-12)]">
                 <div className="md:flex flex-row justify-between">
                     {mode === "edit" ?

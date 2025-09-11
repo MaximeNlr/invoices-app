@@ -1,4 +1,4 @@
-export default function PaidButton({ id }) {
+export default function PaidButton({ id, showToast }) {
 
     const paidButton = async () => {
         try {
@@ -8,7 +8,11 @@ export default function PaidButton({ id }) {
             }
             const response = await fetch(`http://localhost:3000/api/invoice/${id}/paid`, options);
             const data = await response.json();
-            console.log(data);
+            if (data.success) {
+                showToast("Invoice new status : paid", "success", id);
+            } else {
+                showToast("Error changing invoice status", "error", id)
+            }
         } catch (error) {
             console.log(error)
         }
