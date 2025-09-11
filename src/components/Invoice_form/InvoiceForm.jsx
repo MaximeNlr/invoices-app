@@ -3,7 +3,7 @@ import { FaTrash } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import useIsMobile from "../../hooks/isMobile";
 
-export default function InvoiceForm({ item, invoice_id, mode, setIsActive, showToast }) {
+export default function InvoiceForm({ item, invoice_id, mode, setIsActive, showToast, setIsCreated }) {
 
     const isMobile = useIsMobile();
 
@@ -73,7 +73,11 @@ export default function InvoiceForm({ item, invoice_id, mode, setIsActive, showT
             const data = await response.json();
             if (data.success) {
                 setIsActive(false);
-                showToast("Invoice Created succefully", "success", data.invoice.invoiceId)
+                setIsCreated(true);
+                showToast("Invoice Created succefully", "success", data.data.invoiceId);
+
+            } else {
+                showToast("Error creating invoice", "error", invoice_id)
             }
         } catch (error) {
             console.error(error);
@@ -93,6 +97,9 @@ export default function InvoiceForm({ item, invoice_id, mode, setIsActive, showT
             const data = await response.json();
             if (data.success) {
                 setIsActive(false);
+                showToast("Invoice Updated", "success", invoice_id)
+            } else {
+                showToast("Error updating invoice", "error", invoice_id)
             }
         } catch (error) {
             console.error(error);

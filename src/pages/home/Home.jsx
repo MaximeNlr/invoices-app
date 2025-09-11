@@ -16,6 +16,7 @@ export default function Home() {
     const [isActive, setIsActive] = useState(false);
     const [invoicesData, setInvoicesData] = useState([]);
     const [filteredInvoice, setFilteredInvoice] = useState([]);
+    const [isCreated, setIsCreated] = useState(false);
     const [filterTags, setFilterTags] = useState({
         draft: false,
         paid: false,
@@ -55,10 +56,11 @@ export default function Home() {
             }
         }
         fetchInvoices();
-    }, [])
+    }, [isCreated])
 
     return (
         <section className="h-fit pb-32 bg-[var(--custom-color-11)] dark:bg-[var(--custom-color-12)] lg:px-80 md:pt-10">
+            <Toast toast={toast} />
             <div className="flex flex-row items-center justify-between px-5 py-5 lg:py-10 lg:min-w-[600px]">
                 <div>
                     <h1 className="font-bold dark:text-white text-2xl md:text-4xl">Invoices</h1>
@@ -73,7 +75,6 @@ export default function Home() {
                     <NewButton setIsActive={setIsActive} />
                 </div>
             </div>
-            <Toast toast={toast} />
             <InvoiceComp invoices={invoicesData} />
             <AnimatePresence>
                 {isActive && (
@@ -86,7 +87,12 @@ export default function Home() {
                             transition={{ type: "tween", duration: 0.3 }}
                             className="absolute lg:top-0 flex flex-row items-start bg-white dark:bg-[var(--custom-color-12)] md:pl-5 lg:pl-40 lg:pr-10 pt-20"
                         >
-                            <InvoiceForm mode="create" setIsActive={setIsActive} showToast={showToast} />
+                            <InvoiceForm
+                                mode="create"
+                                setIsActive={setIsActive}
+                                showToast={showToast}
+                                setIsCreated={setIsCreated}
+                            />
                         </motion.div>
                     </div>
                 )}

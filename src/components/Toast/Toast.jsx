@@ -12,7 +12,7 @@ export function Toast({ toast }) {
                 exit={{ opacity: 0, x: 50 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 className={`fixed top-20 md:top-5 right-5 px-5 py-4 flex items-center gap-3 rounded-lg shadow-xl border-l-4 dark:text-white
-        ${toast.type === "success" ? "bg-white dark:bg-gray-800 border-green-500" : "bg-white dark:bg-gray-800 border-red-500"}`}
+        ${toast.type === "success" ? "bg-white dark:bg-[var(--custom-dark-color)] border-green-500" : "bg-white dark:bg-[var(--custom-dark-color)] border-red-500"}`}
             >
                 <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100">
                     {toast.type === "success" ? (

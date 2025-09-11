@@ -10,12 +10,15 @@ import useIsMobile from "../../hooks/isMobile";
 import InvoiceForm from "../../components/Invoice_form/InvoiceForm";
 import { motion, AnimatePresence } from "motion/react";
 import { useLocation } from "react-router-dom";
+import useToast from "../../hooks/useToast";
+import { Toast } from "../../components/Toast/Toast";
 
 
 export default function InvoiceView() {
 
     const { id } = useParams();
     const location = useLocation();
+    const { toast, showToast } = useToast();
     const invoiceFromState = location.state?.invoice;
 
     const isMobile = useIsMobile()
@@ -43,11 +46,12 @@ export default function InvoiceView() {
             }
         }
         fetchInvoice();
-    }, [id])
+    }, [id, showToast])
 
     return (
         <article className="flex flex-col bg-[var(--custom-color-11)] dark:bg-[var(--custom-color-12)] lg:px-80 md:h-screen">
             <BackButton />
+            <Toast toast={toast} />
             <div className="flex flex-row items-center justify-between mx-5 bg-white dark:bg-[var(--custom-dark-color)] h-24 px-5 rounded-lg mb-10 lg:min-w-[600px]">
                 <div className="flex flex-row items-center justify-between md:justify-normal gap-5 w-full lg:w-fit">
                     <p className="text-[var(--custom-color-7)] dark:text-[var(--custom-color-6)]">Status</p>
@@ -162,7 +166,13 @@ export default function InvoiceView() {
                             transition={{ type: "tween", duration: 0.3 }}
                             className="absolute flex flex-row items-baseline bg-white dark:bg-[var(--custom-color-12)] lg:pl-40 lg:pr-10 pt-20 top-0"
                         >
-                            <InvoiceForm item={invoice} invoice_id={invoice.invoiceId} mode="edit" setIsActive={setIsActive} />
+                            <InvoiceForm
+                                item={invoice}
+                                invoice_id={invoice.invoiceId}
+                                mode="edit"
+                                setIsActive={setIsActive}
+                                showToast={showToast}
+                            />
                         </motion.div>
                     </div >
                 }
