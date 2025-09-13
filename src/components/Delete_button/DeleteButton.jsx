@@ -27,7 +27,7 @@ export default function DeleteButton({ id }) {
             const data = await response.json()
             if (data.success) {
                 setIsActive(false);
-                navigate("/", { state: { toast: { message: "Invoice deleted!", type: "success", extra: id } } });
+                navigate("/", { state: { toast: { message: "Invoice Deleted!", type: "success", extra: id } } });
 
             } else {
                 showToast("Error deleting invoice", "error", data.message);

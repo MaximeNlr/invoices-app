@@ -24,11 +24,11 @@ export default function InvoiceComp({ invoices }) {
         )
     } else {
         return (
-            <div className="flex flex-col gap-5 px-5 pt-5 h-fit min-h-screen lg:min-w-[600px]">
+            <div className="flex flex-col gap-5 px-5 pt-5 h-fit min-h-screen lg:min-w-[800px] md:whitespace-nowrap">
                 {invoices.map((i) => (
                     <article
                         key={i.invoiceId}
-                        onClick={() => navigate(`/invoice/${i.invoiceId}`, { state: { invoice: i } })}
+                        onClick={() => navigate(`/invoice/${i.invoiceId}`)}
                         className="flex flex-row justify-between bg-white border-2 border-transparent hover:border-[var(--custom-color-1)] dark:bg-[var(--custom-dark-color)]
                          dark:text-white dark:hover:border-2  rounded-lg px-5 py-5 cursor-pointer hover:scale-110 transition-transform"
                     >

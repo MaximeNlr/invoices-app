@@ -1,4 +1,4 @@
-export default function PaidButton({ id, showToast }) {
+export default function PaidButton({ id, showToast, setStatusIsChanged }) {
 
     const paidButton = async () => {
         try {
@@ -10,6 +10,7 @@ export default function PaidButton({ id, showToast }) {
             const data = await response.json();
             if (data.success) {
                 showToast("Invoice new status : paid", "success", id);
+                setStatusIsChanged(true);
             } else {
                 showToast("Error changing invoice status", "error", id)
             }

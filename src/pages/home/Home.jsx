@@ -61,11 +61,11 @@ export default function Home() {
     return (
         <section className="h-fit pb-32 lg:px-80 md:pt-10">
             <Toast toast={toast} />
-            <div className="flex flex-row items-center justify-between px-5 py-5 lg:py-10 lg:min-w-[600px]">
+            <div className="flex flex-row items-center justify-between px-5 py-5 lg:py-10 lg:min-w-[800px]">
                 <div>
                     <h1 className="font-bold dark:text-white text-2xl md:text-4xl">Invoices</h1>
                     {invoicesData.length > 0 ?
-                        <p className="dark:text-[var(--custom-color-5)]">There are {invoicesData.length} total invoices</p>
+                        <p className="dark:text-[var(--custom-color-5)] md:flex flexrow gap-1.5"> <span className="hidden md:flex">There are </span>{invoicesData.length} <span className="hidden md:flex">total</span> invoices</p>
                         :
                         <p className="dark:text-[var(--custom-color-5)]">No invoices</p>
                     }

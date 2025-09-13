@@ -19,11 +19,12 @@ export default function InvoiceView() {
     const { id } = useParams();
     const location = useLocation();
     const { toast, showToast } = useToast();
-    const invoiceFromState = location.state?.invoice;
 
     const isMobile = useIsMobile()
     const [isActive, setIsActive] = useState(false);
-    const [invoice, setInvoice] = useState(invoiceFromState)
+    const [invoice, setInvoice] = useState(null)
+    const [isUpdated, setIsUpdated] = useState(false);
+    const [statusIsChanged, setStatusIsChanged] = useState(false);
 
     const statuesClass = {
         pending: "text-[#FF8F00] bg-[#FF8F00]/20",
@@ -40,13 +41,25 @@ export default function InvoiceView() {
                 };
                 const response = await fetch(`http://localhost:3000/api/invoice/${id}`, options);
                 const data = await response.json();
-                setInvoice(data.data)
+                setInvoice(data.invoice)
             } catch (error) {
                 console.log(error)
             }
         }
         fetchInvoice();
-    }, [id, showToast])
+
+    }, [id, isUpdated, statusIsChanged])
+
+    useEffect(() => {
+        if (location.state?.toast) {
+            const { message, type, extra } = location.state?.toast
+            showToast(message, type, extra);
+        }
+        window.history.replaceState({}, document.title);
+
+    }, [location])
+
+    if (!invoice) return <p>...loading</p>
 
     return (
         <article className="flex flex-col bg-[var(--custom-color-11)] dark:bg-[var(--custom-color-12)] lg:px-80">
@@ -72,7 +85,7 @@ export default function InvoiceView() {
                             Edit
                         </button>
                         <DeleteButton id={invoice.invoiceId} />
-                        <PaidButton id={invoice.invoiceId} showToast={showToast} />
+                        <PaidButton id={invoice.invoiceId} showToast={showToast} setStatusIsChanged={setStatusIsChanged} />
                     </div>
                 }
             </div>
@@ -89,7 +102,7 @@ export default function InvoiceView() {
                     </address>
                 </div>
                 <div className="flex flex-col md:flex-row justify-between pr-5">
-                    <dl className="flex flex-col justify-between md:w-1/3">
+                    <dl className="flex flex-col justify-between md:w-1/3 gap-8">
                         <div>
                             <dt className="text-[13px] text-[#858BB2] font-medium pb-2">Invoice Date</dt>
                             <dd className="text-[15px] font-bold">
@@ -110,7 +123,7 @@ export default function InvoiceView() {
                                 }).replace(/\./g, '')}</dd>
                         </div>
                     </dl>
-                    <div className="md:w-1/3">
+                    <div className="flex flex-col absolute right-10 md:w-1/3 md:relative md:right-0">
                         <dt className="text-[13px] text-[#858BB2] font-medium pb-2">Bill To</dt>
                         <dd className="text-[15px] font-bold pb-1">{invoice.clientInfo.name}</dd>
                         <address className="not-italic">
@@ -133,11 +146,18 @@ export default function InvoiceView() {
                     </div>
                     <div className="flex flex-col px-5">
                         {invoice.itemInfo.map((i) => (
-                            <div key={i.name} className="flex flex-row items-center justify-between py-3">
-                                <span className="w-2/5 font-bold">{i.name}</span>
-                                <span className="w-1/5 text-center">{i.quantity}</span>
-                                <span className="w-1/5 text-right">£ {i.price}</span>
-                                <span className="w-1/5 text-right font-bold">£ {i.total}</span>
+                            <div
+                                key={i.invoiceId}
+                                className="flex flex-col md:flex-row items-start md:items-center justify-between py-3"
+                            >
+                                <span className="md:w-2/5 font-bold">{i.name}</span>
+                                <div className="flex flex-row gap-2 mt-2 md:mt-0 md:w-3/5 justify-between text-[var(--custom-color-6)] md:text-white font-semibold w-full">
+                                    <div className="md:flex flex-row justify-between">
+                                        <span className="md:w-1/5 md:text-center">{i.quantity} <span className="md:hidden">x</span></span>
+                                        <span className="md:w-1/5 md:text-right md:whitespace-nowrap">£ {i.price}</span>
+                                    </div>
+                                    <span className="md:w-1/5 md:text-right font-bold md:whitespace-nowrap text-white">£ {i.total}</span>
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -146,13 +166,13 @@ export default function InvoiceView() {
                         <dd className="font-bold text-2xl">£ {(invoice.totalAmount / 100).toFixed(2)}</dd>
                     </div>
                 </div>
+
             </section>
-            {
-                isMobile &&
-                <div className="flex flex-row justify-between bg-white dark:bg-[var(--custom-dark-color)] px-5 py-5 mt-10 w-full">
+            {isMobile &&
+                <div className="flex flex-row justify-between bg-white dark:bg-[var(--custom-color-3)] px-5 py-5 mt-10 w-full">
                     <EditButton id={invoice.invoiceId} />
                     <DeleteButton id={invoice.invoiceId} />
-                    <PaidButton id={invoice.invoiceId} />
+                    <PaidButton id={invoice.invoiceId} showToast={showToast} setStatusIsChanged={setStatusIsChanged} />
                 </div>
             }
             <AnimatePresence>
@@ -167,11 +187,11 @@ export default function InvoiceView() {
                             className="absolute flex flex-row items-baseline bg-white dark:bg-[var(--custom-color-12)] lg:pl-40 lg:pr-10 pt-20 top-0"
                         >
                             <InvoiceForm
-                                item={invoice}
                                 invoice_id={invoice.invoiceId}
                                 mode="edit"
                                 setIsActive={setIsActive}
                                 showToast={showToast}
+                                setIsUpdated={setIsUpdated}
                             />
                         </motion.div>
                     </div >

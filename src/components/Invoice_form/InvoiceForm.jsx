@@ -1,50 +1,59 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { FaTrash } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import useIsMobile from "../../hooks/isMobile";
+import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function InvoiceForm({ item, invoice_id, mode, setIsActive, showToast, setIsCreated }) {
+export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, setIsCreated, setIsUpdated }) {
 
     const isMobile = useIsMobile();
-    const { id } = useLocation();
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState(mode === "create"
+        ? {
+            senderInfo: { address: "", city: "", postCode: "", country: "" },
+            clientInfo: { name: "", email: "", address: "", city: "", postCode: "", country: "" },
+            itemInfo: [{ name: "", quantity: 1, price: 0, total: 0 }],
+            invoiceInfo: { terms: "", date: "", description: "" },
+            totalAmount: 0,
+            paymentDue: "",
+            status: ""
+        }
+        : null);
+    let finalId = id || invoice_id;
 
-    let finalId = "";
+    useEffect(() => {
+        const fetchInvoice = async () => {
+            if (!finalId) {
+                return
+            }
+            try {
+                const options = {
+                    method: 'GET',
+                    headers: { 'Content-type': "application/json" }
+                };
+                const response = await fetch(`http://localhost:3000/api/invoice/${finalId}`, options);
+                const data = await response.json();
+                if (data.success) {
+                    setFormData({
+                        senderInfo: data.invoice.senderInfo,
+                        clientInfo: data.invoice.clientInfo,
+                        itemInfo: data.invoice.itemInfo,
+                        invoiceInfo: data.invoice.invoiceInfo,
+                        totalAmount: data.invoice.totalAmount,
+                        paymentDue: data.invoice.paymentDue,
+                        status: data.invoice.status
+                    })
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchInvoice();
 
-    if (!invoice_id) {
-        finalId = id;
-    }
-    else {
-        finalId = invoice_id;
-    }
-
-    const [formData, setFormData] = useState({
-        senderInfo: {
-            address: item ? item.senderInfo.address : "",
-            city: item ? item.senderInfo.city : "",
-            postCode: item ? item.senderInfo.postCode : "",
-            country: item ? item.senderInfo.country : "",
-        },
-        clientInfo: {
-            name: item ? item.clientInfo.name : "",
-            email: item ? item.clientInfo.email : "",
-            address: item ? item.clientInfo.address : "",
-            city: item ? item.clientInfo.city : "",
-            postCode: item ? item.clientInfo.postCode : "",
-            country: item ? item.clientInfo.country : "",
-        },
-        itemInfo: item
-            ? item.itemInfo
-            : [
-                { name: "", quantity: 1, price: 0, total: 0 }
-            ],
-        invoiceInfo: {
-            terms: item ? item.invoiceInfo.terms : "",
-            date: item ? item.invoiceInfo.date : "",
-            description: item ? item.invoiceInfo.description : "",
-        },
-        status: ""
-    });
+    }, [finalId])
 
     const updateItem = (index, field, value) => {
         const newItems = [...formData.itemInfo];
@@ -83,12 +92,18 @@ export default function InvoiceForm({ item, invoice_id, mode, setIsActive, showT
             const response = await fetch("http://localhost:3000/api/create/invoice", options);
             const data = await response.json();
             if (data.success) {
-                setIsActive(false);
-                setIsCreated(true);
-                showToast("Invoice Created succefully", "success", data.data.invoiceId);
+                if (!isMobile) {
+                    setIsActive(false);
+                    setIsCreated(true);
+                    showToast("Invoice Created succefully", "success", data.data.invoiceId);
+                } else {
+                    navigate("/", { state: { toast: { message: "Invoice Created!", type: "success", extra: data.data.invoiceId } } });
+                }
 
             } else {
-                showToast("Error creating invoice", "error", invoice_id)
+                if (!isMobile) {
+                    showToast("Error creating invoice", "error", invoice_id)
+                }
             }
         } catch (error) {
             console.error(error);
@@ -96,8 +111,6 @@ export default function InvoiceForm({ item, invoice_id, mode, setIsActive, showT
     };
     const updateInvoice = async (e, finalId) => {
         e.preventDefault();
-        console.log(invoice_id);
-
         const options = {
             method: "PUT",
             headers: { "Content-type": "application/json" },
@@ -107,15 +120,22 @@ export default function InvoiceForm({ item, invoice_id, mode, setIsActive, showT
             const response = await fetch(`http://localhost:3000/api/update/invoice/${finalId}`, options);
             const data = await response.json();
             if (data.success) {
-                setIsActive(false);
-                showToast("Invoice Updated", "success", invoice_id)
+                if (!isMobile) {
+                    setIsActive(false);
+                    setIsUpdated(true);
+                    showToast("Invoice Updated", "success", finalId)
+                } else {
+                    navigate(`/invoice/${finalId}`, { state: { toast: { message: "Invoice Updated!", type: "success", extra: finalId } } });
+                }
             } else {
-                showToast("Error updating invoice", "error", invoice_id)
+                showToast("Error updating invoice", "error", finalId)
             }
         } catch (error) {
             console.error(error);
         }
     };
+
+    if (!formData && mode === 'edit') return <p>Loading...</p>;
 
     return (
         <form onSubmit={mode === 'create' ? (e) => createInvoice(e) : (e) => updateInvoice(e, finalId)}>
@@ -126,7 +146,7 @@ export default function InvoiceForm({ item, invoice_id, mode, setIsActive, showT
                             className="font-bold dark:text-white text-2xl pb-6"
                         >
                             Edit
-                            <span className="text-[#858BB2] pl-2">#</span>{item.invoiceId}</h1>
+                            <span className="text-[#858BB2] pl-2">#</span>{finalId}</h1>
                         :
                         <h1 className="font-bold dark:text-white text-2xl pb-6"
                         >
@@ -347,19 +367,19 @@ export default function InvoiceForm({ item, invoice_id, mode, setIsActive, showT
                         <div
                             key={index}
                         >
-                            <legend className="flex flex-col">
+                            <div className="flex flex-col md:flex-row gap-10 pt-5">
+                                <legend className="flex flex-col">
 
-                                <label htmlFor="itemName">Item Name</label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={info.name}
-                                    onChange={(e) => updateItem(index, "name", e.target.value)}
-                                />
-                            </legend>
-                            <div className="flex flex-row items-center gap-10 pt-5">
-                                <div className="flex flex-row items-center gap-5">
-                                    <legend className="flex flex-col">
+                                    <label htmlFor="itemName">Item Name</label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value={info.name}
+                                        onChange={(e) => updateItem(index, "name", e.target.value)}
+                                    />
+                                </legend>
+                                <div className="flex flex-row items-center gap-5 w-full">
+                                    <legend className="flex flex-col w-1/4">
                                         <label htmlFor="quantity">Qty</label>
                                         <input
                                             type="text"
@@ -368,7 +388,7 @@ export default function InvoiceForm({ item, invoice_id, mode, setIsActive, showT
                                             onChange={(e) => updateItem(index, "quantity", e.target.value)}
                                         />
                                     </legend>
-                                    <legend className="flex flex-col">
+                                    <legend className="flex flex-col w-1/4">
                                         <label htmlFor="price">Price</label>
                                         <input
                                             type="text"
@@ -377,18 +397,17 @@ export default function InvoiceForm({ item, invoice_id, mode, setIsActive, showT
                                             onChange={(e) => updateItem(index, "price", e.target.value)}
                                         />
                                     </legend>
-                                    <dl className="flex flex-col">
+                                    <dl className="flex flex-col w-1/4">
                                         <dt className="text-[var(--custom-color-7)] dark:text-[var(--custom-color-6)] text-[13px]">Total</dt>
                                         <dd className="text-[#858BB2] font-semibold">{info.total}</dd>
                                     </dl>
+                                    <button
+                                        onClick={() => removeItem(index)}
+                                        className="text-[var(--custom-color-6)] w-10"
+                                    >
+                                        <FaTrash />
+                                    </button>
                                 </div>
-
-                                <button
-                                    onClick={() => removeItem(index)}
-                                    className="text-[var(--custom-color-6)]"
-                                >
-                                    <FaTrash />
-                                </button>
                             </div>
                         </div>
                     ))}
@@ -402,7 +421,7 @@ export default function InvoiceForm({ item, invoice_id, mode, setIsActive, showT
                 </button>
             </div>
             {mode === 'edit' ?
-                <div className="flex flex-row justify-end gap-2 shadow-[0px_21px_85px_43px_#757575] lg:shadow-none dark:shadow-none py-5 px-5">
+                <div className="flex flex-row justify-end gap-2 shadow-[0px_21px_85px_43px_#757575] dark:bg-[var(--custom-color-3)] md:dark:bg-transparent lg:shadow-none dark:shadow-none py-5 px-5">
                     <button
                         onClick={() => setIsActive(false)}
                         type="button"
@@ -421,7 +440,7 @@ export default function InvoiceForm({ item, invoice_id, mode, setIsActive, showT
                 </div>
                 :
                 <div
-                    className="flex flex-row md:justify-between gap-2 shadow-[0px_21px_85px_43px_#757575] lg:shadow-none dark:shadow-none py-5 px-5 whitespace-nowrap"
+                    className="flex flex-row md:justify-between gap-2 shadow-[0px_21px_85px_43px_#757575] dark:bg-[var(--custom-color-3)] md:dark:bg-transparent lg:shadow-none dark:shadow-none py-5 px-5 whitespace-nowrap"
                 >
                     <button
                         type="button"

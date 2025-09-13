@@ -11,8 +11,9 @@ export function Toast({ toast }) {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 50 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className={`fixed top-20 md:top-5 right-5 px-5 py-4 flex items-center gap-3 rounded-lg shadow-xl border-l-4 dark:text-white
-        ${toast.type === "success" ? "bg-white dark:bg-[var(--custom-dark-color)] border-green-500" : "bg-white dark:bg-[var(--custom-dark-color)] border-red-500"}`}
+                className={`fixed top-20 md:top-5 right-0 md:right-5 px-5 py-4 flex items-center gap-3 rounded-lg shadow-xl border-l-4 dark:text-white bg-white
+                     dark:bg-[var(--custom-dark-color)] z-50
+        ${toast.type === "success" ? " border-green-500" : " border-red-500"}`}
             >
                 <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100">
                     {toast.type === "success" ? (
