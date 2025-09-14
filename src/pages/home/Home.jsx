@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { Toast } from "../../components/Toast/Toast";
 import useToast from "../../hooks/useToast";
+import ResetDemo from "../../components/Reset_demo/ResetDemo";
 
 export default function Home() {
 
@@ -17,6 +18,7 @@ export default function Home() {
     const [invoicesData, setInvoicesData] = useState([]);
     const [filteredInvoice, setFilteredInvoice] = useState([]);
     const [isCreated, setIsCreated] = useState(false);
+    const [isReseted, setIsReseted] = useState(false);
     const [filterTags, setFilterTags] = useState({
         draft: false,
         paid: false,
@@ -56,7 +58,7 @@ export default function Home() {
             }
         }
         fetchInvoices();
-    }, [isCreated])
+    }, [isCreated, isReseted])
 
     return (
         <section className="h-fit pb-32 lg:px-80 md:pt-10">
@@ -97,6 +99,7 @@ export default function Home() {
                     </div>
                 )}
             </AnimatePresence>
+            <ResetDemo setIsReseted={setIsReseted} />
         </section>
     )
 }

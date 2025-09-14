@@ -23,6 +23,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
         }
         : null);
     let finalId = id || invoice_id;
+    const [error, setError] = useState({});
 
     useEffect(() => {
         const fetchInvoice = async () => {
@@ -165,7 +166,10 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                 </div>
                 <h2 className="text-[var(--custom-color-1)] font-semibold">Bill From</h2>
                 <legend className="flex flex-col">
-                    <label htmlFor="address">Street Address</label>
+                    <div className="flex flex-row justify-between w-full">
+                        <label htmlFor="address">Street Address</label>
+                        {error}
+                    </div>
                     <input
                         type="text"
                         value={formData.senderInfo.address}
@@ -403,7 +407,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                                     </dl>
                                     <button
                                         onClick={() => removeItem(index)}
-                                        className="text-[var(--custom-color-6)] w-10"
+                                        className="text-[var(--custom-color-6)] hover:text-[var(--custom-color-9)] transition-colors w-10"
                                     >
                                         <FaTrash />
                                     </button>

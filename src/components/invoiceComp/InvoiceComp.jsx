@@ -40,7 +40,7 @@ export default function InvoiceComp({ invoices }) {
                                     month: 'short',
                                     year: 'numeric'
                                 }).replace(/\./g, '')}</p>
-                                <span className="font-semibold text-[15px]">£ {(i.totalAmount / 100).toFixed(2)}</span>
+                                <span className="font-semibold text-[15px]">£ {i.totalAmount}</span>
                             </div>
                         </div>
                         <div className="flex flex-col md:flex-row md:items-center md:gap-20 justify-between">

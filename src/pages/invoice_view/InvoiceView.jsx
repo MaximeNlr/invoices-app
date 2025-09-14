@@ -127,7 +127,7 @@ export default function InvoiceView() {
                         <dt className="text-[13px] text-[#858BB2] font-medium pb-2">Bill To</dt>
                         <dd className="text-[15px] font-bold pb-1">{invoice.clientInfo.name}</dd>
                         <address className="not-italic">
-                            {Object.keys(invoice.clientInfo).filter(key => key !== "name").map((key, i) => (
+                            {Object.keys(invoice.clientInfo).filter(key => key !== "name" && key !== "email").map((key, i) => (
                                 <p key={i}>{invoice.clientInfo[key]}</p>
                             ))}
                         </address>
@@ -163,7 +163,7 @@ export default function InvoiceView() {
                     </div>
                     <div className="flex flex-row justify-between bg-[var(--custom-header-color)] dark:bg-[var(--custom-color-12)] text-white px-5 py-5 rounded-b-lg">
                         <dt>Grand Total</dt>
-                        <dd className="font-bold text-2xl">£ {(invoice.totalAmount / 100).toFixed(2)}</dd>
+                        <dd className="font-bold text-2xl">£ {invoice.totalAmount}</dd>
                     </div>
                 </div>
 
