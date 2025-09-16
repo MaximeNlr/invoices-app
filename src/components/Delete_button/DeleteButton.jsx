@@ -23,7 +23,7 @@ export default function DeleteButton({ id }) {
                 method: 'DELETE',
                 headers: { 'Content-type': 'application/json' }
             };
-            const response = await fetch(`http://localhost:3000/api/invoice/${id}`, options)
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/invoice/${id}`, options)
             const data = await response.json()
             if (data.success) {
                 setIsActive(false);

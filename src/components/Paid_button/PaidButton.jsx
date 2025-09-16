@@ -6,7 +6,7 @@ export default function PaidButton({ id, showToast, setStatusIsChanged }) {
                 method: 'PUT',
                 headers: { 'Content-type': 'application/json' },
             }
-            const response = await fetch(`http://localhost:3000/api/invoice/${id}/paid`, options);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/invoice/${id}/paid`, options);
             const data = await response.json();
             if (data.success) {
                 showToast("Invoice new status : paid", "success", id);

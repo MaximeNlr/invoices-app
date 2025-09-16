@@ -35,7 +35,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                     method: 'GET',
                     headers: { 'Content-type': "application/json" }
                 };
-                const response = await fetch(`http://localhost:3000/api/invoice/${finalId}`, options);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/invoice/${finalId}`, options);
                 const data = await response.json();
                 if (data.success) {
                     setFormData({
@@ -90,7 +90,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
             body: JSON.stringify(formData)
         };
         try {
-            const response = await fetch("http://localhost:3000/api/create/invoice", options);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/create/invoice`, options);
             const data = await response.json();
             if (data.success) {
                 if (!isMobile) {
@@ -118,7 +118,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
             body: JSON.stringify(formData)
         }
         try {
-            const response = await fetch(`http://localhost:3000/api/update/invoice/${finalId}`, options);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/update/invoice/${finalId}`, options);
             const data = await response.json();
             if (data.success) {
                 if (!isMobile) {
