@@ -9,7 +9,7 @@ export default function ResetDemo({ setIsReseted }) {
                 method: 'GET',
                 headers: { 'Content-type': "application/json" }
             }
-            const response = await fetch(${`import.meta.env.VITE_API_URL}/api/reset/demo`, options);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/reset/demo`, options);
             const data = await response.json();
             if (data.success) {
                 setIsReseted(true)
