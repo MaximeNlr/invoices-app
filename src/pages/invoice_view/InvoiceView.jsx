@@ -59,7 +59,7 @@ export default function InvoiceView() {
 
     }, [location])
 
-    if (!invoice) return <p>...loading</p>
+    if (!invoice) return <p className="h-screen dark:bg-[var(--custom-dark-color)]">...loading</p>
 
     return (
         <article className="flex flex-col bg-[var(--custom-color-11)] dark:bg-[var(--custom-color-12)] lg:px-80">

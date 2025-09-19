@@ -47,6 +47,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                         paymentDue: data.invoice.paymentDue,
                         status: data.invoice.status
                     })
+                    console.log(data.invoice);
                 }
             } catch (error) {
                 console.log(error)
@@ -168,7 +169,6 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                 <legend className="flex flex-col">
                     <div className="flex flex-row justify-between w-full">
                         <label htmlFor="address">Street Address</label>
-                        {error}
                     </div>
                     <input
                         type="text"

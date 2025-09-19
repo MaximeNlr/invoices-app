@@ -73,6 +73,7 @@ export default function Home() {
                     }
                 </div>
                 <div className="flex flex-row items-center gap-5 lg:gap-10">
+                    <ResetDemo setIsReseted={setIsReseted} />
                     <Filter filterTags={filterTags} setFilterTags={setFilterTags} />
                     <NewButton setIsActive={setIsActive} />
                 </div>
@@ -99,7 +100,6 @@ export default function Home() {
                     </div>
                 )}
             </AnimatePresence>
-            <ResetDemo setIsReseted={setIsReseted} />
         </section>
     )
 }

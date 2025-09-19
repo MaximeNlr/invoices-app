@@ -1,4 +1,4 @@
-import { button } from "motion/react-client";
+import { GrPowerReset } from "react-icons/gr";
 
 export default function ResetDemo({ setIsReseted }) {
 
@@ -22,11 +22,11 @@ export default function ResetDemo({ setIsReseted }) {
     return (
         <button
             onClick={fetchDemo}
-            className=" fixed left-28 bottom-5 px-4 py-2 rounded-xl shadow-lg bg-gradient-to-r from-purple-500 to-indigo-500
-             text-white font-semibold hover:from-purple-600 hover:to-indigo-600 active:scale-95 transition-all duration-200
-        "
+            className="flex flex-row items-center rounded-3xl bg-[var(--custom-color-1)]
+                    hover:bg-[var(--custom-color-2)] transition-colors text-white px-3 py-2 font-semibold"
         >
-            Reset Demo
+            <GrPowerReset />
+
         </button>
     )
 }
