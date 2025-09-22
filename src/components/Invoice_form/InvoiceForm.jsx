@@ -5,6 +5,7 @@ import useIsMobile from "../../hooks/isMobile";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Loading from "../Loading/Loading";
 
 export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, setIsCreated, setIsUpdated }) {
 
@@ -137,7 +138,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
         }
     };
 
-    if (!formData && mode === 'edit') return <p>Loading...</p>;
+    if (!formData && mode === 'edit') return <Loading />;
 
     return (
         <form onSubmit={mode === 'create' ? (e) => createInvoice(e) : (e) => updateInvoice(e, finalId)}>
@@ -398,6 +399,12 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                                             type="text"
                                             name="price"
                                             value={info.price}
+                                            onBlur={() => {
+                                                const parsed = parseFloat(info.price.replace(",", "."));
+                                                if (!isNaN(parsed)) {
+                                                    updateItem(index, "price", (parsed).toFixed(2));
+                                                }
+                                            }}
                                             onChange={(e) => updateItem(index, "price", e.target.value)}
                                         />
                                     </legend>

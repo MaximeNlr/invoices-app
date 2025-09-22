@@ -163,7 +163,7 @@ export default function InvoiceView() {
                     </div>
                     <div className="flex flex-row justify-between bg-[var(--custom-header-color)] dark:bg-[var(--custom-color-12)] text-white px-5 py-5 rounded-b-lg">
                         <dt>Grand Total</dt>
-                        <dd className="font-bold text-2xl">£ {invoice.totalAmount}</dd>
+                        <dd className="font-bold text-2xl">£ {(invoice.totalAmount / 100).toFixed(2)}</dd>
                     </div>
                 </div>
 

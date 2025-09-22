@@ -2,6 +2,7 @@ import data from "../../data/data.json"
 import { FaCircle } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Loading from "../Loading/Loading";
 
 export default function InvoiceComp({ invoices }) {
 
@@ -40,7 +41,7 @@ export default function InvoiceComp({ invoices }) {
                                     month: 'short',
                                     year: 'numeric'
                                 }).replace(/\./g, '')}</p>
-                                <span className="font-semibold text-[15px]">£ {i.totalAmount}</span>
+                                <span className="font-semibold text-[15px]">£ {(i.totalAmount / 100).toFixed(2)}</span>
                             </div>
                         </div>
                         <div className="flex flex-col md:flex-row md:items-center md:gap-20 justify-between">
