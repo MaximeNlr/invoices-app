@@ -19,20 +19,7 @@ export default function Home() {
     const [filteredInvoice, setFilteredInvoice] = useState([]);
     const [isCreated, setIsCreated] = useState(false);
     const [isReseted, setIsReseted] = useState(false);
-    const [filterTags, setFilterTags] = useState({
-        draft: false,
-        paid: false,
-        pending: false
-    });
-
-    useEffect(() => {
-
-        const hasActiveFilter = Object.values(filterTags).some(Boolean);
-        setFilteredInvoice(hasActiveFilter
-            ? invoicesData.filter((i) => filterTags[i.status])
-            : invoicesData);
-
-    }, [filterTags])
+    const [filterTag, setFilterTag] = useState(null);
 
     useEffect(() => {
         if (location.state?.toast) {
@@ -50,15 +37,15 @@ export default function Home() {
                     method: 'GET',
                     headers: { 'Content-type': 'application/json' }
                 }
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/invoices`, options);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/invoices?status=${filterTag}`, options);
                 const data = await response.json();
-                setInvoicesData(data.data)
+                setInvoicesData(data.invoices)
             } catch (error) {
 
             }
         }
         fetchInvoices();
-    }, [isCreated, isReseted])
+    }, [isCreated, isReseted, filterTag])
 
     return (
         <section className="h-fit pb-32 lg:px-80 md:pt-10">
@@ -74,7 +61,7 @@ export default function Home() {
                 </div>
                 <div className="flex flex-row items-center gap-5 lg:gap-10">
                     <ResetDemo setIsReseted={setIsReseted} />
-                    <Filter filterTags={filterTags} setFilterTags={setFilterTags} />
+                    <Filter setInvoicesData={setInvoicesData} setFilterTag={setFilterTag} />
                     <NewButton setIsActive={setIsActive} />
                 </div>
             </div>

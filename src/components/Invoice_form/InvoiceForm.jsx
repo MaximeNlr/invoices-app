@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading/Loading";
+import BackButton from "../Back_button/BackButton";
 
 export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, setIsCreated, setIsUpdated }) {
 
@@ -138,7 +139,20 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
         }
     };
 
-    if (!formData && mode === 'edit') return <Loading />;
+    if (!formData && mode === 'edit')
+        return (
+            <div className="w-[600px]">
+                <div className="w-full text-right">
+                    <button
+                        type="button"
+                        onClick={() => setIsActive(false)}
+                        className="text-3xl text-[var(--custom-color-7)] hover:text-black transition-colors"
+                    >
+                        <IoMdClose />
+                    </button>
+                </div>
+                <Loading />
+            </div>);
 
     return (
         <form onSubmit={mode === 'create' ? (e) => createInvoice(e) : (e) => updateInvoice(e, finalId)}>

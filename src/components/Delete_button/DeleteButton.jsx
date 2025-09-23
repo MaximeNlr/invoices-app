@@ -53,11 +53,11 @@ export default function DeleteButton({ id }) {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.1 }}
-                            className="bg-white dark:bg-[var(--custom-dark-color)] px-5 py-5 m-auto mx-10 rounded-lg"
+                            className="bg-white dark:bg-[var(--custom-dark-color)] px-5 py-5 m-auto mx-10 rounded-lg md:py-10 md:px-10"
                         >
                             <h3 className="text-2xl dark:text-white font-semibold">Confirm Deletion</h3>
-                            <p className="text-[var(--custom-color-6)] py-2">
-                                Are you sure you want to delete invoice #{id}? This action cannot be undone.
+                            <p className="text-[var(--custom-color-6)] py-2 md:flex md:flex-col">
+                                Are you sure you want to delete invoice #{id}?<span>This action cannot be undone.</span>
                             </p>
                             <div className="flex flex-row justify-end gap-2 pt-5 font-semibold">
                                 <button

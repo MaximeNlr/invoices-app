@@ -1,7 +1,7 @@
 import { FaCheck } from "react-icons/fa6";
 import { useState, useEffect } from "react"
 
-export default function Filter({ filterTags, setFilterTags }) {
+export default function Filter({ setInvoicesData, setFilterTag }) {
 
     const [isActive, setIsActive] = useState(false);
 
@@ -17,12 +17,8 @@ export default function Filter({ filterTags, setFilterTags }) {
                 <div className="absolute right-0 translate-x-1/2 w-[200px] px-5 py-5 bg-white dark:bg-[var(--custom-dark-color)] shadow-2xl rounded-lg">
                     <div className="flex flex-row gap-2">
                         <input
-                            checked={filterTags.draft}
-                            onChange={() => setFilterTags({
-                                ...filterTags,
-                                draft: !filterTags.draft
-                            })}
-                            className=""
+
+                            onChange={(e) => setFilterTag(e.target.checked ? "draft" : null)}
                             value="draft"
                             type="checkbox"
                         />
@@ -30,11 +26,8 @@ export default function Filter({ filterTags, setFilterTags }) {
                     </div>
                     <div className="flex flex-row gap-2">
                         <input
-                            checked={filterTags.pending}
-                            onChange={() => setFilterTags({
-                                ...filterTags,
-                                pending: !filterTags.pending
-                            })}
+
+                            onChange={(e) => setFilterTag(e.target.checked ? "pending" : null)}
                             type="checkbox"
                             value="pending"
                         />
@@ -42,11 +35,9 @@ export default function Filter({ filterTags, setFilterTags }) {
                     </div>
                     <div className="flex flex-row gap-2">
                         <input
-                            checked={filterTags.paid}
-                            onChange={() => setFilterTags({
-                                ...filterTags,
-                                paid: !filterTags.paid
-                            })} type="checkbox"
+
+                            onChange={(e) => setFilterTag(e.target.checked ? "paid" : null)}
+                            type="checkbox"
                             value="paid"
                         />
                         <p>Paid</p>

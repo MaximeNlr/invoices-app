@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { useLocation } from "react-router-dom";
 import useToast from "../../hooks/useToast";
 import { Toast } from "../../components/Toast/Toast";
+import Loading from "../../components/Loading/Loading";
 
 
 export default function InvoiceView() {
@@ -59,7 +60,7 @@ export default function InvoiceView() {
 
     }, [location])
 
-    if (!invoice) return <p className="h-screen dark:bg-[var(--custom-dark-color)]">...loading</p>
+    if (!invoice) return <Loading />
 
     return (
         <article className="flex flex-col bg-[var(--custom-color-11)] dark:bg-[var(--custom-color-12)] lg:px-80">
@@ -93,11 +94,11 @@ export default function InvoiceView() {
                 <div className="md:flex flex-row justify-between">
                     <div className="mb-8 md:mb-0">
                         <h3 className="font-semibold"><span className="text-[#858BB2]">#</span>{invoice.invoiceId}</h3>
-                        <p>{invoice.invoiceInfo.description}</p>
+                        <p className="text-[#858BB2]">{invoice.invoiceInfo.description}</p>
                     </div>
                     <address className="not-italic">
                         {Object.values(invoice.senderInfo).map((val, i) => (
-                            <p key={i}>{val}</p>
+                            <p className="text-[#858BB2]" key={i}>{val}</p>
                         ))}
                     </address>
                 </div>
@@ -128,7 +129,7 @@ export default function InvoiceView() {
                         <dd className="text-[15px] font-bold pb-1">{invoice.clientInfo.name}</dd>
                         <address className="not-italic">
                             {Object.keys(invoice.clientInfo).filter(key => key !== "name" && key !== "email").map((key, i) => (
-                                <p key={i}>{invoice.clientInfo[key]}</p>
+                                <p className="text-[#858BB2]" key={i}>{invoice.clientInfo[key]}</p>
                             ))}
                         </address>
                     </div>
@@ -151,12 +152,12 @@ export default function InvoiceView() {
                                 className="flex flex-col md:flex-row items-start md:items-center justify-between py-3"
                             >
                                 <span className="md:w-2/5 font-bold">{i.name}</span>
-                                <div className="flex flex-row gap-2 mt-2 md:mt-0 md:w-3/5 justify-between text-[var(--custom-color-6)] md:text-white font-semibold w-full">
+                                <div className="flex flex-row gap-2 mt-2 md:mt-0 md:w-3/5 justify-between text-[var(--custom-color-6)] dark:md:text-white font-semibold w-full">
                                     <div className="md:flex flex-row justify-between">
                                         <span className="md:w-1/5 md:text-center">{i.quantity} <span className="md:hidden">x</span></span>
                                         <span className="md:w-1/5 md:text-right md:whitespace-nowrap">£ {i.price}</span>
                                     </div>
-                                    <span className="md:w-1/5 md:text-right font-bold md:whitespace-nowrap text-white">£ {i.total}</span>
+                                    <span className="md:w-1/5 md:text-right font-bold md:whitespace-nowrap text-black dark:text-white">£ {i.total}</span>
                                 </div>
                             </div>
                         ))}
