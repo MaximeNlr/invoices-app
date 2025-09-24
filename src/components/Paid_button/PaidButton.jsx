@@ -15,7 +15,7 @@ export default function PaidButton({ id, showToast, setStatusIsChanged }) {
                 showToast("Error changing invoice status", "error", id)
             }
         } catch (error) {
-            console.log(error)
+
         }
     }
 

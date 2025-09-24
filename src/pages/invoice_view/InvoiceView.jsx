@@ -44,7 +44,7 @@ export default function InvoiceView() {
                 const data = await response.json();
                 setInvoice(data.invoice)
             } catch (error) {
-                console.log(error)
+
             }
         }
         fetchInvoice();

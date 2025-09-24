@@ -110,7 +110,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                 }
             }
         } catch (error) {
-            console.error(error);
+            showToast("Unexpected error while creating invoice", "error", invoice_id);
         }
     };
     const updateInvoice = async (e, finalId) => {
@@ -135,7 +135,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                 showToast("Error updating invoice", "error", finalId)
             }
         } catch (error) {
-            console.error(error);
+            showToast("Unexpected error while updating invoice", "error", finalId);
         }
     };
 

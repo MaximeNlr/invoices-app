@@ -15,7 +15,7 @@ export default function ResetDemo({ setIsReseted }) {
                 setIsReseted(true)
             }
         } catch (error) {
-            console.log(error);
+
         }
     }
 
