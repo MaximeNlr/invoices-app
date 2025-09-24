@@ -156,7 +156,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
 
     return (
         <form onSubmit={mode === 'create' ? (e) => createInvoice(e) : (e) => updateInvoice(e, finalId)}>
-            <div className="flex flex-col gap-5 px-5 pb-24 bg-white dark:bg-[var(--custom-color-12)]">
+            <div className="flex flex-col gap-5 px-5 pb-24 bg-white dark:bg-[var(--custom-color-12)] lg:pl-40 lg:pr-10">
                 <div className="md:flex flex-row justify-between">
                     {mode === "edit" ?
                         <h1
@@ -446,7 +446,8 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                 </button>
             </div>
             {mode === 'edit' ?
-                <div className="flex flex-row justify-end gap-2 shadow-[0px_21px_85px_43px_#757575] dark:bg-[var(--custom-color-3)] md:dark:bg-transparent lg:shadow-none dark:shadow-none py-5 px-5">
+                <div className="flex flex-row justify-end gap-2 shadow-[0px_21px_85px_43px_#757575]
+                                dark:shadow-none py-5 px-5 sticky bottom-0 w-full bg-white dark:bg-[var(--custom-color-12)]">
                     <button
                         onClick={() => setIsActive(false)}
                         type="button"
@@ -465,7 +466,8 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                 </div>
                 :
                 <div
-                    className="flex flex-row md:justify-between gap-2 shadow-[0px_21px_85px_43px_#757575] dark:bg-[var(--custom-color-3)] md:dark:bg-transparent lg:shadow-none dark:shadow-none py-5 px-5 whitespace-nowrap"
+                    className="flex flex-row md:justify-between gap-2 shadow-[0px_21px_85px_43px_#757575]
+                    dark:shadow-none py-5 px-5 whitespace-nowrap sticky bottom-0 w-full bg-white dark:bg-[var(--custom-color-12)] lg:pl-40"
                 >
                     <button
                         type="button"

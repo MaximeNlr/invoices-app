@@ -41,15 +41,13 @@ export default function InvoiceComp({ invoices }) {
                                     month: 'short',
                                     year: 'numeric'
                                 }).replace(/\./g, '')}</p>
-                                <span className="font-semibold text-[15px]">£ {(i.totalAmount / 100).toFixed(2)}</span>
+                                <span className="md:hidden font-semibold text-[15px]">£ {(i.totalAmount / 100).toFixed(2)}</span>
+                                <p className="hidden md:block text-end text-[#858BB2] dark:text-white">{i.clientInfo.name}</p>
                             </div>
                         </div>
                         <div className="flex flex-col md:flex-row md:items-center md:gap-20 justify-between">
-                            <p
-                                className="text-end"
-                            >
-                                {i.clientInfo.name}
-                            </p>
+                            <p className=" md:hidden text-[#858BB2] dark:text-white text-end">{i.clientInfo.name}</p>
+                            <span className="hidden md:block font-semibold text-[15px]">£ {(i.totalAmount / 100).toFixed(2)}</span>
                             <p
                                 aria-label={i.status}
                                 className={`flex justify-center items-center gap-2 px-5 py-2 text-center rounded-lg font-semibold w-[104px] h-[40px] ${statuesClass[i.status]}`}

@@ -30,7 +30,7 @@ export default function InvoiceView() {
     const statuesClass = {
         pending: "text-[#FF8F00] bg-[#FF8F00]/20",
         paid: "text-[#33D69F] bg-[#33D69F]/20",
-        draft: "text-white bg-black/20",
+        draft: "dark:text-white bg-black/20",
     }
 
     useEffect(() => {
@@ -105,8 +105,8 @@ export default function InvoiceView() {
                 <div className="flex flex-col md:flex-row justify-between pr-5">
                     <dl className="flex flex-col justify-between md:w-1/3 gap-8">
                         <div>
-                            <dt className="text-[13px] text-[#858BB2] font-medium pb-2">Invoice Date</dt>
-                            <dd className="text-[15px] font-bold">
+                            <dt className="text-[#858BB2] font-medium pb-2">Invoice Date</dt>
+                            <dd className="font-bold">
                                 {new Date(invoice.invoiceInfo.date).toLocaleDateString('en-US', {
                                     day: '2-digit',
                                     month: 'short',
@@ -115,8 +115,8 @@ export default function InvoiceView() {
                             </dd>
                         </div>
                         <div>
-                            <dt className="text-[13px] text-[#858BB2] font-medium pb-2">Payment Due</dt>
-                            <dd className="text-[15px] font-bold">
+                            <dt className="text-[#858BB2] font-medium pb-2">Payment Due</dt>
+                            <dd className="font-bold">
                                 {new Date(invoice.paymentDue).toLocaleDateString('en-US', {
                                     day: '2-digit',
                                     month: 'short',
@@ -125,8 +125,8 @@ export default function InvoiceView() {
                         </div>
                     </dl>
                     <div className="flex flex-col absolute right-10 md:w-1/3 md:relative md:right-0">
-                        <dt className="text-[13px] text-[#858BB2] font-medium pb-2">Bill To</dt>
-                        <dd className="text-[15px] font-bold pb-1">{invoice.clientInfo.name}</dd>
+                        <dt className="text-[#858BB2] font-medium pb-2">Bill To</dt>
+                        <dd className="font-bold pb-1">{invoice.clientInfo.name}</dd>
                         <address className="not-italic">
                             {Object.keys(invoice.clientInfo).filter(key => key !== "name" && key !== "email").map((key, i) => (
                                 <p className="text-[#858BB2]" key={i}>{invoice.clientInfo[key]}</p>
@@ -134,8 +134,8 @@ export default function InvoiceView() {
                         </address>
                     </div>
                     <dl className="md:w-1/3 mt-5 md:mt-0">
-                        <dt className="text-[13px] text-[#858BB2] font-medium pb-2">Sent To</dt>
-                        <dd className="text-[15px] font-bold">{invoice.clientInfo.email}</dd>
+                        <dt className="text-[#858BB2] font-medium pb-2">Sent To</dt>
+                        <dd className="font-bold">{invoice.clientInfo.email}</dd>
                     </dl>
                 </div>
                 <div className="flex flex-col bg-[#F9FAFE] dark:bg-[var(--custom-color-4)] rounded-lg md:mt-10">
@@ -149,15 +149,14 @@ export default function InvoiceView() {
                         {invoice.itemInfo.map((i) => (
                             <div
                                 key={i.invoiceId}
-                                className="flex flex-col md:flex-row items-start md:items-center justify-between py-3"
+                                className="flex flex-col md:flex-row items-start md:items-center justify-between py-3 text-[var(--custom-color-7)]
+                                        dark:text-[var(--custom-color-5)] font-semibold"
                             >
-                                <span className="md:w-2/5 font-bold">{i.name}</span>
-                                <div className="flex flex-row gap-2 mt-2 md:mt-0 md:w-3/5 justify-between text-[var(--custom-color-6)] dark:md:text-white font-semibold w-full">
-                                    <div className="md:flex flex-row justify-between">
-                                        <span className="md:w-1/5 md:text-center">{i.quantity} <span className="md:hidden">x</span></span>
-                                        <span className="md:w-1/5 md:text-right md:whitespace-nowrap">£ {i.price}</span>
-                                    </div>
-                                    <span className="md:w-1/5 md:text-right font-bold md:whitespace-nowrap text-black dark:text-white">£ {i.total}</span>
+                                <span className="md:w-2/5 font-bold text-black dark:text-white">{i.name}</span>
+                                <div className="flex flex-row w-full md:w-3/5 md:flex md:justify-between">
+                                    <span className="md:w-1/3 md:text-center">{i.quantity}<span className="md:hidden"> x</span></span>
+                                    <span className="md:w-1/3 md:text-right ml-1 md:ml-0">£ {i.price}</span>
+                                    <span className="md:w-1/3 md:text-right font-bold text-black dark:text-white ml-auto">£ {i.total}</span>
                                 </div>
                             </div>
                         ))}
@@ -167,7 +166,6 @@ export default function InvoiceView() {
                         <dd className="font-bold text-2xl">£ {(invoice.totalAmount / 100).toFixed(2)}</dd>
                     </div>
                 </div>
-
             </section>
             {isMobile &&
                 <div className="flex flex-row justify-between bg-white dark:bg-[var(--custom-color-3)] px-5 py-5 mt-10 w-full">
@@ -185,7 +183,7 @@ export default function InvoiceView() {
                             animate={{ x: 0 }}
                             exit={{ x: -800 }}
                             transition={{ type: "tween", duration: 0.3 }}
-                            className="absolute flex flex-row items-baseline bg-white dark:bg-[var(--custom-color-12)] lg:pl-40 lg:pr-10 pt-20 top-0"
+                            className="absolute flex flex-row items-baseline bg-white dark:bg-[var(--custom-color-12)] pt-20 top-0"
                         >
                             <InvoiceForm
                                 invoice_id={invoice.invoiceId}

@@ -48,7 +48,7 @@ export default function Home() {
     }, [isCreated, isReseted, filterTag])
 
     return (
-        <section className="h-fit pb-32 lg:px-80 md:pt-10">
+        <section className="h-fit pb-32 lg:px-80 md:pt-10 bg-[var(--custom-color-11)] dark:bg-[var(--custom-color-12)]">
             <Toast toast={toast} />
             <div className="flex flex-row items-center justify-between px-5 py-5 lg:py-10 lg:min-w-[800px]">
                 <div>
@@ -61,7 +61,7 @@ export default function Home() {
                 </div>
                 <div className="flex flex-row items-center gap-5 lg:gap-10">
                     <ResetDemo setIsReseted={setIsReseted} />
-                    <Filter setInvoicesData={setInvoicesData} setFilterTag={setFilterTag} />
+                    <Filter filterTag={filterTag} setFilterTag={setFilterTag} />
                     <NewButton setIsActive={setIsActive} />
                 </div>
             </div>
@@ -75,7 +75,7 @@ export default function Home() {
                             animate={{ x: 0 }}
                             exit={{ x: -800 }}
                             transition={{ type: "tween", duration: 0.3 }}
-                            className="absolute lg:top-0 flex flex-row items-start bg-white dark:bg-[var(--custom-color-12)] md:pl-5 lg:pl-40 lg:pr-10 pt-20"
+                            className="absolute lg:top-0 flex flex-row items-start bg-white dark:bg-[var(--custom-color-12)] md:pl-5 pt-20"
                         >
                             <InvoiceForm
                                 mode="create"

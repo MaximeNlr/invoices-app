@@ -9,7 +9,7 @@ export default function PaidButton({ id, showToast, setStatusIsChanged }) {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/api/invoice/${id}/paid`, options);
             const data = await response.json();
             if (data.success) {
-                showToast("Invoice new status : paid", "success", id);
+                showToast("New status : paid", "success", id);
                 setStatusIsChanged(true);
             } else {
                 showToast("Error changing invoice status", "error", id)
