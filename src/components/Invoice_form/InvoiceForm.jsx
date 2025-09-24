@@ -174,7 +174,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                         <button
                             type="button"
                             onClick={() => setIsActive(false)}
-                            className="text-3xl text-[var(--custom-color-7)] hover:text-black transition-colors"
+                            className="text-3xl text-[var(--custom-color-7)] hover:text-black transition-colors cursor-pointer"
                         >
                             <IoMdClose />
                         </button>
@@ -440,7 +440,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                 <button
                     type="button"
                     onClick={addItem}
-                    className="bg-[#F9FAFE] text-[#858BB2] rounded-3xl py-2 font-semibold w-full mt-5"
+                    className="bg-[#F9FAFE] text-[#858BB2] rounded-3xl py-2 font-semibold w-full mt-5 cursor-pointer"
                 >
                     + Add New Item
                 </button>
@@ -452,13 +452,13 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                         onClick={() => setIsActive(false)}
                         type="button"
                         className="bg-[#F9FAFE] text-[var(--custom-color-7)]  hover:bg-[var(--custom-color-5)] dark:bg-[var(--custom-color-4)]
-                        dark:text-[var(--custom-color-5)] dark:hover:bg-[#F9FAFE]
+                        dark:text-[var(--custom-color-5)] dark:hover:bg-[#F9FAFE] cursor-pointer
                         dark:hover:text-[var(--custom-color-7)] rounded-3xl px-5 py-3 transition-colors"
                     >
                         Cancel
                     </button>
                     <button
-                        className="bg-[var(--custom-color-1)] hover:bg-[var(--custom-color-2)]
+                        className="bg-[var(--custom-color-1)] hover:bg-[var(--custom-color-2)] cursor-pointer
                             transition-colors rounded-3xl px-6 lg:px-8 py-2 text-white overflow-hidden whitespace-nowrap"
                     >
                         Save Changes
@@ -472,7 +472,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                     <button
                         type="button"
                         className="bg-[#F9FAFE] text-[var(--custom-color-7)]  hover:bg-[var(--custom-color-5)] dark:bg-[var(--custom-color-4)]
-                        dark:text-[var(--custom-color-5)] dark:hover:bg-[#F9FAFE]
+                        dark:text-[var(--custom-color-5)] dark:hover:bg-[#F9FAFE] cursor-pointer
                         dark:hover:text-[var(--custom-color-7)] rounded-3xl px-5 py-3 transition-colors"
                     >
                         Discard
@@ -481,13 +481,13 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                         <button
                             onClick={() => setFormData(prev => ({ ...prev, status: "draft" }))}
                             className="bg-[#373B53] rounded-3xl text-[var(--custom-color-6)] hover:bg-[var(--custom-color-8)] dark:text-[var(--custom-color-5)]
-                             dark:hover:bg-[var(--custom-color-3)] px-3 py-3 w-fit transition-colors"
+                             dark:hover:bg-[var(--custom-color-3)] px-3 py-3 w-fit transition-colors cursor-pointer"
                         >
                             Save as Draft
                         </button>
                         <button
                             onClick={() => setFormData(prev => ({ ...prev, status: "pending" }))}
-                            className="bg-[var(--custom-color-1)] hover:bg-[var(--custom-color-2)]
+                            className="bg-[var(--custom-color-1)] hover:bg-[var(--custom-color-2)] cursor-pointer
                             transition-colors rounded-3xl px-3 lg:px-8 py-2 text-white overflow-hidden whitespace-nowrap"
                         >
                             Save & Send

@@ -41,7 +41,7 @@ export default function DeleteButton({ id }) {
         <div>
             <button
                 onClick={() => setIsActive(true)}
-                className="bg-[var(--custom-color-9)] hover:bg-[var(--custom-color-10)] transition-colors rounded-3xl px-6 lg:px-8 py-3 text-white"
+                className="bg-[var(--custom-color-9)] hover:bg-[var(--custom-color-10)] cursor-pointer transition-colors rounded-3xl px-6 lg:px-8 py-3 text-white"
             >
                 Delete
             </button>

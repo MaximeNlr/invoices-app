@@ -23,7 +23,7 @@ export default function ResetDemo({ setIsReseted }) {
         <button
             onClick={fetchDemo}
             className="flex flex-row items-center rounded-3xl bg-[var(--custom-color-1)]
-                    hover:bg-[var(--custom-color-2)] transition-colors text-white px-3 py-2 font-semibold"
+                    hover:bg-[var(--custom-color-2)] transition-colors text-white px-3 py-2 font-semibold cursor-pointer"
         >
             <GrPowerReset />
 

@@ -8,7 +8,7 @@ export default function Filter({ filterTag, setFilterTag }) {
         <div className="relative dark:text-white text-[1.1rem] font-bold cursor-pointer">
             <button
                 onClick={() => !isActive ? setIsActive(true) : setIsActive(false)}
-                className="flex flex-row  items-center gap-2 lg:gap-4"
+                className="flex flex-row  items-center gap-2 lg:gap-4 cursor-pointer"
             >
                 <span className="flex flex-row gap-1">filter <span className="hidden md:block">by status</span></span>
                 <span><img src="./assets/icon-arrow-down.svg" alt="" /></span></button>

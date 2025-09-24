@@ -1,4 +1,4 @@
-export default function PaidButton({ id, showToast, setStatusIsChanged }) {
+export default function PaidButton({ id, showToast, status, setStatusIsChanged }) {
 
     const paidButton = async () => {
         try {
@@ -21,9 +21,12 @@ export default function PaidButton({ id, showToast, setStatusIsChanged }) {
 
     return (
         <button
+            disabled={status === "paid"}
             onClick={paidButton}
-            className="bg-[var(--custom-color-1)] hover:bg-[var(--custom-color-2)]
-             transition-colors rounded-3xl px-6 lg:px-8 py-2 text-white overflow-hidden whitespace-nowrap"
+            className={`
+            bg-[var(--custom-color-1)] transition-colors rounded-3xl px-6 lg:px-8 py-2 text-white overflow-hidden whitespace-nowrap
+            ${status === "paid" ? "cursor-not-allowed opacity-50 hover:bg-[var(--custom-color-1)]" : "hover:bg-[var(--custom-color-2)] cursor-pointer"}
+        `}
         >
             Mark as Paid
         </button>

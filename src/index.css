@@ -58,7 +58,7 @@ select {
 }
 
 button {
-  @apply cursor-pointer font-semibold
+  @apply font-semibold
 }
 
 label {

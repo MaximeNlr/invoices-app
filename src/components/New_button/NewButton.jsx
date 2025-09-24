@@ -10,7 +10,7 @@ export default function NewButton({ setIsActive }) {
             <Link
                 to="/create/invoice"
                 className="flex flex-row items-center rounded-3xl bg-[var(--custom-color-1)]
-                    hover:bg-[var(--custom-color-2)] transition-colors text-white px-3 py-2 font-semibold"
+                    hover:bg-[var(--custom-color-2)] transition-colors text-white px-3 py-2 font-semibold cursor-pointer"
             >
                 <span className="bg-white rounded-full px-3 mr-2 py-3"><img src="./assets/icon-plus.svg" alt="" /></span>
                 New <span className="hidden lg:flex pl-1">Invoice</span>
@@ -20,7 +20,7 @@ export default function NewButton({ setIsActive }) {
         return (
             <button
                 onClick={() => setIsActive(true)}
-                className="flex flex-row items-center rounded-3xl bg-[var(--custom-color-1)]
+                className="flex flex-row items-center rounded-3xl bg-[var(--custom-color-1)] cursor-pointer
                     hover:bg-[var(--custom-color-2)] transition-colors text-white px-3 py-2 font-semibold"
             >
                 <span className="bg-white rounded-full px-3 mr-2 py-3"><img src="./assets/icon-plus.svg" alt="" /></span>

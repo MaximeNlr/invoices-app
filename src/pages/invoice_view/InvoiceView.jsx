@@ -86,7 +86,7 @@ export default function InvoiceView() {
                             Edit
                         </button>
                         <DeleteButton id={invoice.invoiceId} />
-                        <PaidButton id={invoice.invoiceId} showToast={showToast} setStatusIsChanged={setStatusIsChanged} />
+                        <PaidButton id={invoice.invoiceId} status={invoice.status} showToast={showToast} setStatusIsChanged={setStatusIsChanged} />
                     </div>
                 }
             </div>
@@ -138,7 +138,7 @@ export default function InvoiceView() {
                         <dd className="font-bold">{invoice.clientInfo.email}</dd>
                     </dl>
                 </div>
-                <div className="flex flex-col bg-[#F9FAFE] dark:bg-[var(--custom-color-4)] rounded-lg md:mt-10 md:pt-2 md:px-2">
+                <div className="flex flex-col bg-[#F9FAFE] dark:bg-[var(--custom-color-4)] rounded-lg md:mt-10 md:pt-2">
                     <div className="hidden md:flex flex-row justify-between px-5 py-3 text-[#858BB2] text-[13px] font-medium">
                         <span className="w-2/5">Item Name</span>
                         <span className="w-1/5 text-center">Qty</span>
@@ -171,7 +171,7 @@ export default function InvoiceView() {
                 <div className="flex flex-row justify-between bg-white dark:bg-[var(--custom-color-3)] px-5 py-5 mt-10 w-full">
                     <EditButton id={invoice.invoiceId} />
                     <DeleteButton id={invoice.invoiceId} />
-                    <PaidButton id={invoice.invoiceId} showToast={showToast} setStatusIsChanged={setStatusIsChanged} />
+                    <PaidButton id={invoice.invoiceId} status={invoice.status} showToast={showToast} setStatusIsChanged={setStatusIsChanged} />
                 </div>
             }
             <AnimatePresence>
