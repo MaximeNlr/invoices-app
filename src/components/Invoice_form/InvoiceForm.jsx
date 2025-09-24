@@ -446,7 +446,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                 </button>
             </div>
             {mode === 'edit' ?
-                <div className="flex flex-row justify-end gap-2 shadow-[0px_21px_85px_43px_#757575]
+                <div className="flex flex-row justify-end gap-2 shadow-[0px_21px_55px_21px_#757575]
                                 dark:shadow-none py-5 px-5 sticky bottom-0 w-full bg-white dark:bg-[var(--custom-color-12)]">
                     <button
                         onClick={() => setIsActive(false)}
@@ -466,7 +466,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                 </div>
                 :
                 <div
-                    className="flex flex-row md:justify-between gap-2 shadow-[0px_21px_85px_43px_#757575]
+                    className="flex flex-row md:justify-between gap-2 shadow-[0px_21px_55px_21px_#757575]
                     dark:shadow-none py-5 px-5 whitespace-nowrap sticky bottom-0 w-full bg-white dark:bg-[var(--custom-color-12)] lg:pl-40"
                 >
                     <button

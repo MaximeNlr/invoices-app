@@ -63,7 +63,7 @@ export default function InvoiceView() {
     if (!invoice) return <Loading />
 
     return (
-        <article className="flex flex-col bg-[var(--custom-color-11)] dark:bg-[var(--custom-color-12)] lg:px-80">
+        <article className="flex flex-col lg:justify-center lg:h-full bg-[var(--custom-color-11)] dark:bg-[var(--custom-color-12)] lg:px-80">
             <BackButton />
             <Toast toast={toast} />
             <div className="flex flex-row items-center justify-between mx-5 bg-white dark:bg-[var(--custom-dark-color)] h-24 px-5 rounded-lg mb-10 lg:min-w-[600px]">
@@ -138,7 +138,7 @@ export default function InvoiceView() {
                         <dd className="font-bold">{invoice.clientInfo.email}</dd>
                     </dl>
                 </div>
-                <div className="flex flex-col bg-[#F9FAFE] dark:bg-[var(--custom-color-4)] rounded-lg md:mt-10">
+                <div className="flex flex-col bg-[#F9FAFE] dark:bg-[var(--custom-color-4)] rounded-lg md:mt-10 md:pt-2 md:px-2">
                     <div className="hidden md:flex flex-row justify-between px-5 py-3 text-[#858BB2] text-[13px] font-medium">
                         <span className="w-2/5">Item Name</span>
                         <span className="w-1/5 text-center">Qty</span>
@@ -161,7 +161,7 @@ export default function InvoiceView() {
                             </div>
                         ))}
                     </div>
-                    <div className="flex flex-row justify-between bg-[var(--custom-header-color)] dark:bg-[var(--custom-color-12)] text-white px-5 py-5 rounded-b-lg">
+                    <div className="flex flex-row justify-between md:mt-2 bg-[var(--custom-header-color)] dark:bg-[var(--custom-color-12)] text-white px-5 py-5 rounded-b-lg">
                         <dt>Grand Total</dt>
                         <dd className="font-bold text-2xl">£ {(invoice.totalAmount / 100).toFixed(2)}</dd>
                     </div>
