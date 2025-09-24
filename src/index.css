@@ -43,7 +43,8 @@ dt {
  }
 
 input[type=text], input[type=date] {
-  @apply text-[16px] border-[1px] border-[var(--custom-color-5)] dark:text-white dark:border-transparent dark:bg-[var(--custom-dark-color)] py-3 px-3 font-semibold rounded-[5px] outline-none focus:border-[var(--custom-color-1)]
+  @apply text-[16px] border-[1px] border-[var(--custom-color-5)] dark:text-white dark:border-transparent min-h-[48px]
+    dark:bg-[var(--custom-dark-color)] py-3 px-3 font-semibold rounded-[5px] outline-none focus:border-[var(--custom-color-1)]
 }
 
 

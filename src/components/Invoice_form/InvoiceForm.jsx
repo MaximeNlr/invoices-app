@@ -356,7 +356,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                                     invoiceInfo: { ...prev.invoiceInfo, terms: e.target.value }
                                 }))
                             }
-                            className="border rounded px-2 py-1"
+                            className="border rounded px-2 py-1 min-h-[48px]"
                         >
                             <option value="">Select payment terms</option>
                             <option value="1">Net 1 Day</option>
