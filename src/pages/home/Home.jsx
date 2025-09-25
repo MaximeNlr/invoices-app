@@ -47,6 +47,14 @@ export default function Home() {
         fetchInvoices();
     }, [isCreated, isReseted, filterTag])
 
+    useEffect(() => {
+        if (isActive) {
+            document.body.style.overflow = "hidden"
+        } else {
+            document.body.style.overflow = "scroll"
+        }
+    }, [isActive])
+
     return (
         <section className="h-fit pb-32 lg:px-80 md:pt-10 bg-[var(--custom-color-11)] dark:bg-[var(--custom-color-12)]">
             <Toast toast={toast} />

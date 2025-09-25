@@ -3,21 +3,20 @@ import { FaTrash } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import useIsMobile from "../../hooks/isMobile";
 import { useParams } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading/Loading";
-import BackButton from "../Back_button/BackButton";
 
 export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, setIsCreated, setIsUpdated }) {
 
     const isMobile = useIsMobile();
     const { id } = useParams();
     const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState({});
     const [formData, setFormData] = useState(mode === "create"
         ? {
             senderInfo: { address: "", city: "", postCode: "", country: "" },
             clientInfo: { name: "", email: "", address: "", city: "", postCode: "", country: "" },
-            itemInfo: [{ name: "", quantity: 1, price: 0, total: 0 }],
+            itemInfo: [{ name: "", quantity: 0, price: 0, total: 0 }],
             invoiceInfo: { terms: "", date: "", description: "" },
             totalAmount: 0,
             paymentDue: "",
@@ -25,8 +24,43 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
         }
         : null);
     let finalId = id || invoice_id;
-    const [error, setError] = useState({});
 
+    const validateForm = (formData) => {
+
+        let newErrors = {}
+
+        Object.keys(formData.senderInfo).forEach((key) => {
+            if (!formData.senderInfo[key]) {
+                newErrors[`sender${key}`] = `${key} is required`
+            }
+        })
+
+        Object.keys(formData.clientInfo).forEach((key) => {
+            if (!formData.clientInfo[key]) {
+                newErrors[`client${key}`] = `Client's ${key} is required`
+            }
+        })
+
+        Object.keys(formData.invoiceInfo).forEach((key) => {
+            if (!formData.invoiceInfo[key]) {
+                newErrors[key] = `${key} is required`
+            }
+        })
+
+        formData.itemInfo.forEach((item, index) => {
+            if (item.name.trim() === "") {
+                newErrors[`item_${index}`] = "All fields of the item must be filled";
+            }
+            if (item.quantity <= 0) {
+                newErrors[`item_${index}`] = "All fields of the item must be filled";
+            }
+            if (item.price <= 0) {
+                newErrors[`item_${index}`] = "All fields of the item must be filled";
+            }
+        });
+
+        return newErrors
+    };
     useEffect(() => {
         const fetchInvoice = async () => {
             if (!finalId) {
@@ -76,7 +110,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
     const addItem = () => {
         setFormData(prev => ({
             ...prev,
-            itemInfo: [...prev.itemInfo, { name: "", quantity: 1, price: 0, total: 0 }]
+            itemInfo: [...prev.itemInfo, { name: "", quantity: 0, price: 0, total: 0 }]
         }));
     };
 
@@ -87,6 +121,9 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
 
     const createInvoice = async (e) => {
         e.preventDefault();
+        const newErrors = validateForm(formData);
+        setErrorMessage(newErrors);
+        console.log(newErrors);
         const options = {
             method: "POST",
             headers: { "Content-type": "application/json" },
@@ -112,6 +149,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
         } catch (error) {
             showToast("Unexpected error while creating invoice", "error", invoice_id);
         }
+
     };
     const updateInvoice = async (e, finalId) => {
         e.preventDefault();
@@ -184,6 +222,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                 <legend className="flex flex-col">
                     <div className="flex flex-row justify-between w-full">
                         <label htmlFor="address">Street Address</label>
+                        <span className="text-[13px] text-red-700">{errorMessage.senderaddress}</span>
                     </div>
                     <input
                         type="text"
@@ -196,56 +235,65 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                         }
                     />
                 </legend>
-                <div className="flex flex-col lg:flex-row lg:items-center gap-5">
-                    <div className="flex flex-row md:justify-between gap-5">
-                        <legend className="flex flex-col">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-5 w-full">
+                    <legend className="flex flex-col">
+                        <div className="flex flex-row justify-between w-full">
                             <label htmlFor="city">City</label>
-                            <input
-                                type="text"
-                                value={formData.senderInfo.city}
-                                onChange={(e) =>
-                                    setFormData(prev => ({
-                                        ...prev,
-                                        senderInfo: { ...prev.senderInfo, city: e.target.value }
-                                    }))
-                                }
-                                className="w-full"
-                            />
-                        </legend>
-                        <legend className="flex flex-col">
+                            <span className="text-[13px] text-red-700">{errorMessage.sendercity}</span>
+                        </div>
+                        <input
+                            type="text"
+                            value={formData.senderInfo.city}
+                            onChange={(e) =>
+                                setFormData(prev => ({
+                                    ...prev,
+                                    senderInfo: { ...prev.senderInfo, city: e.target.value }
+                                }))
+                            }
+                            className="w-full"
+                        />
+                    </legend>
+                    <legend className="flex flex-col">
+                        <div className="flex flex-row justify-between w-full">
                             <label htmlFor="postCode">Post Code</label>
-                            <input
-                                type="text"
-                                value={formData.senderInfo.postCode}
-                                onChange={(e) =>
-                                    setFormData(prev => ({
-                                        ...prev,
-                                        senderInfo: { ...prev.senderInfo, postCode: e.target.value }
-                                    }))
-                                }
-                                className="w-full"
-                            />
-                        </legend>
-                    </div>
-                    <div>
-                        <legend className="flex flex-col">
+                            <span className="text-[13px] text-red-700">{errorMessage.senderpostCode}</span>
+                        </div>
+                        <input
+                            type="text"
+                            value={formData.senderInfo.postCode}
+                            onChange={(e) =>
+                                setFormData(prev => ({
+                                    ...prev,
+                                    senderInfo: { ...prev.senderInfo, postCode: e.target.value }
+                                }))
+                            }
+                            className="w-full"
+                        />
+                    </legend>
+                    <legend className="flex flex-col col-span-2 md:col-auto">
+                        <div className="flex flex-row justify-between w-full">
                             <label htmlFor="country">Country</label>
-                            <input
-                                type="text"
-                                value={formData.senderInfo.country}
-                                onChange={(e) =>
-                                    setFormData(prev => ({
-                                        ...prev,
-                                        senderInfo: { ...prev.senderInfo, country: e.target.value }
-                                    }))
-                                }
-                            />
-                        </legend>
-                    </div>
+                            <span className="text-[13px] text-red-700">{errorMessage.sendercountry}</span>
+                        </div>
+                        <input
+                            type="text"
+                            value={formData.senderInfo.country}
+                            onChange={(e) =>
+                                setFormData(prev => ({
+                                    ...prev,
+                                    senderInfo: { ...prev.senderInfo, country: e.target.value }
+                                }))
+                            }
+                            className="w-full"
+                        />
+                    </legend>
                 </div>
                 <h2 className="text-[var(--custom-color-1)] font-semibold">Bill To</h2>
                 <legend className="flex flex-col">
-                    <label htmlFor="name">Client's Name</label>
+                    <div className="flex flex-row justify-between w-full">
+                        <label htmlFor="name">Client's Name</label>
+                        <span className="text-[13px] text-red-700">{errorMessage.clientname}</span>
+                    </div>
                     <input
                         type="text"
                         value={formData.clientInfo.name}
@@ -258,7 +306,10 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                     />
                 </legend>
                 <legend className="flex flex-col">
-                    <label htmlFor="email">Client's Email</label>
+                    <div className="flex flex-row justify-between w-full">
+                        <label htmlFor="email">Client's Email</label>
+                        <span className="text-[13px] text-red-700">{errorMessage.clientemail}</span>
+                    </div>
                     <input
                         type="text"
                         name="email"
@@ -272,7 +323,10 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                     />
                 </legend>
                 <legend className="flex flex-col">
-                    <label htmlFor="address">Street Address</label>
+                    <div className="flex flex-row justify-between w-full">
+                        <label htmlFor="address">Street Address</label>
+                        <span className="text-[13px] text-red-700">{errorMessage.clientaddress}</span>
+                    </div>
                     <input
                         type="text"
                         value={formData.clientInfo.address}
@@ -284,56 +338,64 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                         }
                     />
                 </legend>
-                <div className="flex flex-col lg:flex-row gap-5">
-                    <div className="flex flex-row justify-between gap-5">
-                        <legend className="flex flex-col">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
+                    <legend className="flex flex-col">
+                        <div className="flex flex-row justify-between w-full">
                             <label htmlFor="city">City</label>
-                            <input
-                                type="text"
-                                value={formData.clientInfo.city}
-                                onChange={(e) =>
-                                    setFormData(prev => ({
-                                        ...prev,
-                                        clientInfo: { ...prev.clientInfo, city: e.target.value }
-                                    }))
-                                }
-                                className="w-full"
-                            />
-                        </legend>
-                        <legend className="flex flex-col">
+                            <span className="text-[13px] text-red-700">{errorMessage.clientcity}</span>
+                        </div>
+                        <input
+                            type="text"
+                            value={formData.clientInfo.city}
+                            onChange={(e) =>
+                                setFormData(prev => ({
+                                    ...prev,
+                                    clientInfo: { ...prev.clientInfo, city: e.target.value }
+                                }))
+                            }
+                            className="w-full"
+                        />
+                    </legend>
+                    <legend className="flex flex-col">
+                        <div className="flex flex-row justify-between w-full">
                             <label htmlFor="postCode">Post Code</label>
-                            <input
-                                type="text"
-                                value={formData.clientInfo.postCode}
-                                onChange={(e) =>
-                                    setFormData(prev => ({
-                                        ...prev,
-                                        clientInfo: { ...prev.clientInfo, postCode: e.target.value }
-                                    }))
-                                }
-                                className="w-full"
-                            />
-                        </legend>
-                    </div>
-                    <div>
-                        <legend className="flex flex-col">
+                            <span className="text-[13px] text-red-700">{errorMessage.clientpostCode}</span>
+                        </div>
+                        <input
+                            type="text"
+                            value={formData.clientInfo.postCode}
+                            onChange={(e) =>
+                                setFormData(prev => ({
+                                    ...prev,
+                                    clientInfo: { ...prev.clientInfo, postCode: e.target.value }
+                                }))
+                            }
+                            className="w-full"
+                        />
+                    </legend>
+                    <legend className="flex flex-col col-span-2 md:col-auto">
+                        <div className="flex flex-row justify-between w-full">
                             <label htmlFor="country">Country</label>
-                            <input
-                                type="text"
-                                value={formData.clientInfo.country}
-                                onChange={(e) =>
-                                    setFormData(prev => ({
-                                        ...prev,
-                                        clientInfo: { ...prev.clientInfo, country: e.target.value }
-                                    }))
-                                }
-                            />
-                        </legend>
-                    </div>
+                            <span className="text-[13px] text-red-700">{errorMessage.clientcountry}</span>
+                        </div>
+                        <input
+                            type="text"
+                            value={formData.clientInfo.country}
+                            onChange={(e) =>
+                                setFormData(prev => ({
+                                    ...prev,
+                                    clientInfo: { ...prev.clientInfo, country: e.target.value }
+                                }))
+                            }
+                        />
+                    </legend>
                 </div>
                 <div className="flex flex-col lg:flex-row lg:items-center lg:w-full lg:gap-10">
                     <legend className="flex flex-col lg:w-full">
-                        <label htmlFor="invoiceDate">Invoice Date</label>
+                        <div className="flex flex-row justify-between w-full">
+                            <label htmlFor="invoiceDate">Invoice Date</label>
+                            <span className="text-[13px] text-red-700">{errorMessage.date}</span>
+                        </div>
                         <input
                             type="date"
                             name="date"
@@ -344,9 +406,10 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                         />
                     </legend>
                     <legend className="flex flex-col pt-5 lg:pt-0 lg:w-full">
-                        <label htmlFor="paymentTerms">
-                            Payment Terms
-                        </label>
+                        <div className="flex flex-row justify-between w-full">
+                            <label htmlFor="paymentTerms">Payment Terms</label>
+                            <span className="text-[13px] text-red-700">{errorMessage.terms}</span>
+                        </div>
                         <select
                             id="paymentTerms"
                             value={formData.invoiceInfo.terms}
@@ -368,7 +431,10 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                     </legend>
                 </div>
                 <legend className="flex flex-col">
-                    <label htmlFor="description">Project Description</label>
+                    <div className="flex flex-row justify-between w-full">
+                        <label htmlFor="description">Project Description</label>
+                        <span className="text-[13px] text-red-700">{errorMessage.description}</span>
+                    </div>
                     <input
                         type="text"
                         value={formData.invoiceInfo.description}
@@ -386,7 +452,9 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                         <div
                             key={index}
                         >
+                            <span className="text-[13px] text-red-700 text-right">{errorMessage[`item_${index}`]}</span>
                             <div className="flex flex-col md:flex-row gap-10 pt-5">
+
                                 <legend className="flex flex-col">
 
                                     <label htmlFor="itemName">Item Name</label>
@@ -428,7 +496,7 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                                     </dl>
                                     <button
                                         onClick={() => removeItem(index)}
-                                        className="text-[var(--custom-color-6)] hover:text-[var(--custom-color-9)] transition-colors w-10"
+                                        className="text-[var(--custom-color-6)] hover:text-[var(--custom-color-9)] transition-colors w-10 cursor-pointer"
                                     >
                                         <FaTrash />
                                     </button>
@@ -448,15 +516,27 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
             {mode === 'edit' ?
                 <div className="flex flex-row justify-end gap-2 shadow-[0px_21px_55px_21px_#757575]
                                 dark:shadow-none py-5 px-5 sticky bottom-0 w-full bg-white dark:bg-[var(--custom-color-12)]">
-                    <button
-                        onClick={() => setIsActive(false)}
-                        type="button"
-                        className="bg-[#F9FAFE] text-[var(--custom-color-7)]  hover:bg-[var(--custom-color-5)] dark:bg-[var(--custom-color-4)]
-                        dark:text-[var(--custom-color-5)] dark:hover:bg-[#F9FAFE] cursor-pointer
-                        dark:hover:text-[var(--custom-color-7)] rounded-3xl px-5 py-3 transition-colors"
-                    >
-                        Cancel
-                    </button>
+                    {!isMobile ?
+                        <button
+                            onClick={() => setIsActive(false)}
+                            type="button"
+                            className="bg-[#F9FAFE] text-[var(--custom-color-7)]  hover:bg-[var(--custom-color-5)] dark:bg-[var(--custom-color-4)]
+                                dark:text-[var(--custom-color-5)] dark:hover:bg-[#F9FAFE] cursor-pointer
+                                dark:hover:text-[var(--custom-color-7)] rounded-3xl px-5 py-3 transition-colors"
+                        >
+                            Cancel
+                        </button>
+                        :
+                        <button
+                            onClick={() => navigate(-1)}
+                            type="button"
+                            className="bg-[#F9FAFE] text-[var(--custom-color-7)]  hover:bg-[var(--custom-color-5)] dark:bg-[var(--custom-color-4)]
+                                    dark:text-[var(--custom-color-5)] dark:hover:bg-[#F9FAFE] cursor-pointer
+                                    dark:hover:text-[var(--custom-color-7)] rounded-3xl px-5 py-3 transition-colors"
+                        >
+                            Cancel
+                        </button>
+                    }
                     <button
                         className="bg-[var(--custom-color-1)] hover:bg-[var(--custom-color-2)] cursor-pointer
                             transition-colors rounded-3xl px-6 lg:px-8 py-2 text-white overflow-hidden whitespace-nowrap"
@@ -469,14 +549,27 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                     className="flex flex-row md:justify-between gap-2 shadow-[0px_21px_55px_21px_#757575]
                     dark:shadow-none py-5 px-5 whitespace-nowrap sticky bottom-0 w-full bg-white dark:bg-[var(--custom-color-12)] lg:pl-40"
                 >
-                    <button
-                        type="button"
-                        className="bg-[#F9FAFE] text-[var(--custom-color-7)]  hover:bg-[var(--custom-color-5)] dark:bg-[var(--custom-color-4)]
+                    {!isMobile ?
+                        <button
+                            onClick={() => setIsActive(false)}
+                            type="button"
+                            className="bg-[#F9FAFE] text-[var(--custom-color-7)]  hover:bg-[var(--custom-color-5)] dark:bg-[var(--custom-color-4)]
+                    dark:text-[var(--custom-color-5)] dark:hover:bg-[#F9FAFE] cursor-pointer
+                    dark:hover:text-[var(--custom-color-7)] rounded-3xl px-5 py-3 transition-colors"
+                        >
+                            Discard
+                        </button>
+                        :
+                        <button
+                            onClick={() => navigate(-1)}
+                            type="button"
+                            className="bg-[#F9FAFE] text-[var(--custom-color-7)]  hover:bg-[var(--custom-color-5)] dark:bg-[var(--custom-color-4)]
                         dark:text-[var(--custom-color-5)] dark:hover:bg-[#F9FAFE] cursor-pointer
                         dark:hover:text-[var(--custom-color-7)] rounded-3xl px-5 py-3 transition-colors"
-                    >
-                        Discard
-                    </button>
+                        >
+                            Discard
+                        </button>
+                    }
                     <div className="flex flex-row gap-2">
                         <button
                             onClick={() => setFormData(prev => ({ ...prev, status: "draft" }))}
@@ -486,9 +579,11 @@ export default function InvoiceForm({ invoice_id, mode, setIsActive, showToast, 
                             Save as Draft
                         </button>
                         <button
+                            disabled={!validateForm}
                             onClick={() => setFormData(prev => ({ ...prev, status: "pending" }))}
-                            className="bg-[var(--custom-color-1)] hover:bg-[var(--custom-color-2)] cursor-pointer
-                            transition-colors rounded-3xl px-3 lg:px-8 py-2 text-white overflow-hidden whitespace-nowrap"
+                            className={`bg-[var(--custom-color-1)] transition-colors rounded-3xl px-3 lg:px-8 py-2 text-white overflow-hidden whitespace-nowrap
+                                ${validateForm === true ? 'hover:bg-[var(--custom-color-2)] cursor-pointer' : 'cursor-not-allowed opacity-50 hover:bg-[var(--custom-color-1)]'}
+                                `}
                         >
                             Save & Send
                         </button>
